@@ -44,10 +44,9 @@ export const LpMiddle = () => {
                 全員が参加できる日程を見つけ出せる
               </p>
               <Image
-                src={"/glass.png"}
+                src={"/glass.svg"}
                 width={25}
                 height={25}
-                style={{ width: "auto", height: "auto" }}
                 alt="drag icon"
               ></Image>
             </div>
@@ -67,13 +66,7 @@ export const LpMiddle = () => {
           <p className="font-extrabold text-9xl">3</p>
           <div className="bg-bgMyColor w-3/5 rounded-md border-solid border-2 border-yellow-700 shadow-custom-right p-2">
             <div className="flex items-center px-10 pt-2">
-              <Image
-                src={"/bell.png"}
-                width={30}
-                height={30}
-                style={{ width: "auto", height: "auto" }}
-                alt="drag icon"
-              ></Image>
+              <Image src={"/bell.svg"} width={20} height={20} alt="drag icon" />
               <p className="text-xl ml-3 font-semibold">通知機能</p>
             </div>
             <hr className="ml-10 w-3/4" />
