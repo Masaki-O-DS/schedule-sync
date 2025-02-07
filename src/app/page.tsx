@@ -1,6 +1,8 @@
 //LP
 
+import Footer from "./ui/Footer";
 import { Header } from "./ui/Header";
+import LpBottom from "./ui/LpBottom";
 import { LpMiddle } from "./ui/LpMiddle";
 import LpTop from "./ui/LpTop";
 
@@ -10,6 +12,8 @@ export default function Home() {
       <Header />
       <LpTop />
       <LpMiddle />
+      <LpBottom />
+      <Footer />
     </div>
   );
 }
