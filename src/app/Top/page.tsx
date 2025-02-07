@@ -1,7 +1,7 @@
 import React from "react";
-import { TopHeader } from "./ui/TopHeader";
-import TopImage from "./ui/TopImage";
-import TopTitle from "./ui/TopTitle";
+import { TopHeader } from "./components/TopHeader";
+import TopImage from "./components/TopImage";
+import TopTitle from "./components/TopTitle";
 import TopButtons from "./components/TopButtons";
 
 const Top = () => {

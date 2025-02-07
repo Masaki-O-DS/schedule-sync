@@ -1,5 +1,5 @@
 import React from "react";
-import { LpNav } from "../components/LpNav";
+import { LpNav } from "./LpNav";
 
 export const Header = () => {
   return (

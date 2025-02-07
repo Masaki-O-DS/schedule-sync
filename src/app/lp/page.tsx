@@ -1,10 +1,10 @@
 //LP
 
 import Footer from "../components/Footer";
-import { Header } from "./ui/LpHeader";
-import LpBottom from "./ui/LpBottom";
-import { LpMiddle } from "./ui/LpMiddle";
-import LpTop from "./ui/LpTop";
+import { Header } from "./components/LpHeader";
+import LpBottom from "./components/LpBottom";
+import { LpMiddle } from "./components/LpMiddle";
+import LpTop from "./components/LpTop";
 
 export default function Home() {
   return (

@@ -69,4 +69,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  .rdp-day_selected.rdp-day_today {
+    background-color: #1e90ff !important;
+    color: #fff !important;
+  }
 }
