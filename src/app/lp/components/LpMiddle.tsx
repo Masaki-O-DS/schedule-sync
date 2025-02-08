@@ -7,7 +7,7 @@ export const LpMiddle = () => {
       className="h-auto w-full flex flex-col items-center bg-bgGrayColor"
       id="features"
     >
-      <h1 className="font-extrabold text-4xl mt-10 mb-6">
+      <h1 className="font-extrabold text-4xl mt-14 mb-6">
         ScheduleSyncの3つの特徴
       </h1>
 

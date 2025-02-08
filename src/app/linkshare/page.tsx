@@ -2,7 +2,7 @@ import React from "react";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer";
 import Nav from "../guest/components/Nav";
-import { Button } from "../components/button";
+import CopyLinkButton from "./components/CopyLinkButton";
 
 const page = () => {
   return (
@@ -24,18 +24,8 @@ const page = () => {
                 チームミーティング
               </p>
             </div>
-            <div className=" flex w-full justify-center items-end gap-5">
-              <input
-                type="text"
-                className="w-96 overflow-x-scroll rounded-sm h-8 p-1"
-                readOnly
-                value="jfaoiwehj/aweofao"
-              />
-              <Button className="bg-bgMyColor text-black text-lg h-8 hover:bg-red-400 hover:text-white">
-                Copy
-              </Button>
-            </div>
           </div>
+          <CopyLinkButton />
         </div>
       </div>
       <Footer />

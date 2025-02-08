@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "../../components/button";
+import Link from "next/link";
 
 const LpTop = () => {
   return (
@@ -15,7 +16,9 @@ const LpTop = () => {
           スケジューリングを実現します
         </p>
         <div className="mt-10">
-          <Button>今すぐ始める</Button>
+          <Link href={"/top"}>
+            <Button>今すぐ始める</Button>
+          </Link>
         </div>
       </div>
       <Image

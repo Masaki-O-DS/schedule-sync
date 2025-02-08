@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "../../components/button";
+import Link from "next/link";
 
 export const LpNav = () => {
   return (
@@ -12,7 +13,9 @@ export const LpNav = () => {
           <li>
             <a href="#why">使うメリット</a>
           </li>
-          <Button>Try for Free</Button>
+          <Link href={"/top"}>
+            <Button>Try for Free</Button>
+          </Link>
         </ol>
       </nav>
     </div>

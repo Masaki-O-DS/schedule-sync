@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "../../components/button";
+import Link from "next/link";
 
 const LpBottomContent = () => {
   return (
@@ -72,9 +73,11 @@ const LpBottomContent = () => {
             簡単に効率よく日程調整をして、今日から時間を節約しましょう！
           </p>
         </div>
-        <Button className="bg-bgMyColor text-black text-xl mt-5 mb-4 h-10 w-96">
-          Try ScheduleSync for Free
-        </Button>
+        <Link href={"top"}>
+          <Button className="bg-bgMyColor text-black text-xl mt-5 mb-4 h-10 w-96 active:bg-slate-500">
+            Try ScheduleSync for Free
+          </Button>
+        </Link>
       </div>
     </div>
   );
