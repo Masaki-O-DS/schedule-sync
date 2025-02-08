@@ -4,7 +4,7 @@ import LpBottomContent from "./LpBottomContent";
 
 const LpBottom = () => {
   return (
-    <div>
+    <div id="why">
       <LpBottomTitle />
       <LpBottomContent />
     </div>

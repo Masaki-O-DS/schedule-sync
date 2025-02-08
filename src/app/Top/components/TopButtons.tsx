@@ -1,4 +1,4 @@
-import { Button } from "@/app/ui/button";
+import { Button } from "@/app/components/button";
 import React from "react";
 
 const TopButtons = () => {

@@ -1,8 +1,8 @@
 import React from "react";
-import EventForm from "../../ui/EventForm";
-import InputEventName from "../../ui/InputEventName";
-import InputEventDetail from "../../ui/InputEventDetail";
-import DateRangePicker from "../../ui/Calendar";
+import EventForm from "../../components/EventForm";
+import InputEventName from "../../components/InputEventName";
+import InputEventDetail from "../../components/InputEventDetail";
+import DateRangePicker from "../../components/Calendar";
 
 const Page = () => {
   return (

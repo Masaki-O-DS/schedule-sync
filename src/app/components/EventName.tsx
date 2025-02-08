@@ -5,7 +5,7 @@ const EventName = () => {
   return (
     <div className="flex ">
       <p className="font-semibold text-xl">イベント名 : </p>
-      <p className="text-xl">{dummyText}</p>
+      <p className="text-xl font-medium">{dummyText}</p>
     </div>
   );
 };

@@ -3,7 +3,10 @@ import React from "react";
 
 export const LpMiddle = () => {
   return (
-    <div className="h-auto w-full flex flex-col items-center bg-bgGrayColor">
+    <div
+      className="h-auto w-full flex flex-col items-center bg-bgGrayColor"
+      id="features"
+    >
       <h1 className="font-extrabold text-4xl mt-10 mb-6">
         ScheduleSyncの3つの特徴
       </h1>

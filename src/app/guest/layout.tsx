@@ -1,5 +1,5 @@
-import Footer from "../../components/Footer";
-import { GuestHeader } from "./components/GuestHeader";
+import Footer from "../components/Footer";
+import { GuestHeader } from "./eventRegister/components/GuestHeader";
 
 export default function GuestLayout({
   children,

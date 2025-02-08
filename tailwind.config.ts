@@ -11,10 +11,13 @@ export default {
     extend: {
       boxShadow: {
         "custom-right": "7px 7px 15px -1px #777777",
+        "custom-neumorphism":
+          "10px 10px 20px #b1b1b1, -10px -10px 20px #ffffff",
       },
       colors: {
         bgMyColor: "#F4F5F7",
         bgGrayColor: "#D9D9D9",
+        bgNuemo: "#e0e0e0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
