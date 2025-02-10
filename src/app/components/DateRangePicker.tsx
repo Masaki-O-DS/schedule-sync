@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const DateRangePicker = ({
   className,
@@ -16,6 +15,11 @@ const DateRangePicker = ({
     to: undefined,
   });
   console.log(date);
+
+  //カレンダーで候補日を選択するたびにsessionStorageが更新される
+  useEffect(() => {
+    sessionStorage.setItem("possibleDates", JSON.stringify(date));
+  }, [date]);
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {
     setDate({ from: undefined, to: undefined });
