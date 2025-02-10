@@ -4,9 +4,27 @@ import React, { useState } from "react";
 import { SelectionArea, SelectionEvent } from "@viselect/react";
 import { Button } from "./button";
 
+// interface UnavailableTimes {
+//   [key: string]: number[]; //key:日付 value:利用不可の時間の配列
+// }
+
 const Selection = ({ date }: { date: string }) => {
+  //1日中予定ありボタンを押しているかどうか
+  const [isSetAllSchedule, setIsSetAllSchedule] = useState(false);
   // 選択された要素の ID を保持する state（Set を使用）
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
+
+  //時間が選択されるたびにsessionstorageに保管する
+  // useEffect(() => {
+  //   const unavailableTimesArray = Array.from(selected);
+  //   const unavailableTimes: UnavailableTimes = {
+  //     [date]: unavailableTimesArray,
+  //   };
+  //   sessionStorage.setItem(
+  //     "unavailableTimes",
+  //     JSON.stringify(unavailableTimes)
+  //   );
+  // }, [date, selected]);
 
   // 選択対象の要素から data-key 属性の値を抽出して数値の配列に変換する関数
   const extractIds = (els: Element[]): number[] =>
@@ -40,15 +58,34 @@ const Selection = ({ date }: { date: string }) => {
     });
   };
 
-  console.log(selected);
+  const handleSetAllSchedules = () => {
+    setIsSetAllSchedule(true);
+    const fullSelected = new Set([
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+    ]);
+    setSelected(fullSelected);
+  };
+
+  const handleCancel = () => {
+    setIsSetAllSchedule(false);
+    setSelected(new Set());
+  };
+
+  console.log(date, selected);
 
   return (
-    <div className="flex flex-col justify-center gap-y-8 items-center">
-      <p className="text-xl font-bold">{date}</p>
-      <div className="h-auto w-auto shadow-custom-neumorphism rounded-xl">
-        <Button className="bg-bgNuemo text-black rounded-xl">
-          {" "}
-          全日予定あり
+    <div className="flex flex-col justify-center gap-y-5 items-center">
+      <p className="text-xl font-bold ">{date}</p>
+      <div className="h-auto w-auto shadow-custom-neumorphism rounded-xl mb-2">
+        <Button
+          onClick={
+            isSetAllSchedule
+              ? () => handleCancel()
+              : () => handleSetAllSchedules()
+          }
+          className="bg-bgNuemo text-black rounded-xl"
+        >
+          {isSetAllSchedule ? "リセット" : "1日中予定あり"}
         </Button>
       </div>
       <div className="w-auto h-auto bg-red-400 shadow-custom-neumorphism rounded-lg">

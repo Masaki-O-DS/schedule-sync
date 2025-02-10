@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
@@ -14,10 +14,21 @@ const DateRangePicker = ({
     from: undefined,
     to: undefined,
   });
-  console.log(date);
+  const isFirstRender = useRef(true); //初回レンダリング時にsessionStorageが更新されるのを防ぐのに使う
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("possibleDates");
+    if (storedData !== null) {
+      setDate(JSON.parse(storedData));
+    }
+  }, []);
 
   //カレンダーで候補日を選択するたびにsessionStorageが更新される
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     sessionStorage.setItem("possibleDates", JSON.stringify(date));
   }, [date]);
 
