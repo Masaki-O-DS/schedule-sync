@@ -13,3 +13,6 @@ eventNameAtom.debugLabel = "unavailableTimesAtom";
 
 export const eventDetailAtom = atom<string>("");
 eventDetailAtom.debugLabel = "eventDetailAtom";
+
+export const eventIdAtom = atom<string>("");
+eventIdAtom.debugLabel = "eventId";

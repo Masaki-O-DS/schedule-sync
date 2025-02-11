@@ -5,6 +5,7 @@ import DragSchedule from "@/app/components/DragSchedule";
 import EventName from "@/app/components/EventName";
 import {
   eventDetailAtom,
+  eventIdAtom,
   eventNameAtom,
   unavailableTimesAtom,
 } from "@/store/atoms";
@@ -15,23 +16,17 @@ import { nanoid } from "nanoid";
 
 export default function Page() {
   const [unavailableTimes, setUnavailableTimes] = useAtom(unavailableTimesAtom);
-  const [eventName, setEventName] = useAtom(eventNameAtom);
-  const [eventDetail, setEventDetail] = useAtom(eventDetailAtom);
+  const [eventId, setEventId] = useAtom(eventIdAtom);
+
+  //linkshareページに飛ぶとともにfirestoreにデータを保管
   const handleClick = () => {
-    const compressedEventName = Buffer.from(JSON.stringify(eventName)).toString(
-      "base64"
-    );
-    const compressedEventDetail = Buffer.from(
-      JSON.stringify(eventDetail)
-    ).toString("base64");
     const compressedData = Buffer.from(
       JSON.stringify(unavailableTimes)
     ).toString("base64");
-    sessionStorage.setItem("eventName", compressedEventName);
-    sessionStorage.setItem("eventDetail", compressedEventDetail);
+
     sessionStorage.setItem("unavailableTimes", compressedData);
 
-    const id = nanoid();
+    setEventId(nanoid());
 
     //ここでfireStoreに格納する処理を書く 全てのイベントを
   };

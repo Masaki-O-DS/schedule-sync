@@ -16,6 +16,7 @@ const DateRangePicker = ({
   });
   const isFirstRender = useRef(true); //初回レンダリング時にsessionStorageが更新されるのを防ぐのに使う
 
+  //初回レンダリング時にsessionStorageからデータ取得
   useEffect(() => {
     const storedData = sessionStorage.getItem("possibleDates");
     const decompressedData = storedData
