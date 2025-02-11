@@ -8,13 +8,16 @@ const TopButtons = () => {
     //イベント情報をsessionStorageで保管するために初期化s
     const possibleDates: string[] = [];
     const unavailableTimes: string[] = [];
+    const compressedPossibleDates = Buffer.from(
+      JSON.stringify(possibleDates)
+    ).toString("base64");
+    const compressedUnavailableDates = Buffer.from(
+      JSON.stringify(unavailableTimes)
+    ).toString("base64");
     sessionStorage.setItem("eventName", "");
     sessionStorage.setItem("eventDetail", "");
-    sessionStorage.setItem("possibleDates", JSON.stringify(possibleDates));
-    sessionStorage.setItem(
-      "unavailableTimes",
-      JSON.stringify(unavailableTimes)
-    );
+    sessionStorage.setItem("possibleDates", compressedPossibleDates);
+    sessionStorage.setItem("unavailableTimes", compressedUnavailableDates);
   };
   return (
     <div className="flex flex-col gap-y-4 w-56 mt-5">

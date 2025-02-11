@@ -6,11 +6,11 @@ const EventName = () => {
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("eventName");
-    if (storedData !== null) {
-      setEventName(storedData);
-    } else {
-      setEventName("");
-    }
+    const decompressedData = storedData
+      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+      : null;
+
+    setEventName(decompressedData);
   }, []);
 
   return (

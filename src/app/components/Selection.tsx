@@ -1,30 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SelectionArea, SelectionEvent } from "@viselect/react";
 import { Button } from "./button";
+import { useAtom } from "jotai";
+import { unavailableTimesAtom } from "@/store/atoms";
 
-// interface UnavailableTimes {
-//   [key: string]: number[]; //key:日付 value:利用不可の時間の配列
-// }
+interface UnavailableTimes {
+  [key: string]: number[]; //key:日付 value:利用不可の時間の配列
+}
 
 const Selection = ({ date }: { date: string }) => {
   //1日中予定ありボタンを押しているかどうか
   const [isSetAllSchedule, setIsSetAllSchedule] = useState(false);
   // 選択された要素の ID を保持する state（Set を使用）
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
+  //Jotaiでatomを取得
+  const [unavailableTimes, setUnavailableTimes] = useAtom(unavailableTimesAtom);
 
-  //時間が選択されるたびにsessionstorageに保管する
-  // useEffect(() => {
-  //   const unavailableTimesArray = Array.from(selected);
-  //   const unavailableTimes: UnavailableTimes = {
-  //     [date]: unavailableTimesArray,
-  //   };
-  //   sessionStorage.setItem(
-  //     "unavailableTimes",
-  //     JSON.stringify(unavailableTimes)
-  //   );
-  // }, [date, selected]);
+  console.log(unavailableTimes);
+  //毎回sessionstorageを保管する方法ではなく、確定ボタンを押されたらsessionstorageに保管する方向でいこう
+  //考えないといけないのは,確定ボタンを押したらDBに保管するはずなのでわざわざsessionStorageに保管しないといけないのか問題がある。
+  //場合によっては、useStateでunavailableTimesの状態だけを保持しておいてsessionsotrageには保管しないといけないかもしれない。
+
+  //時間が選択されるたびにJotaiで状態管理
+  useEffect(() => {
+    //Setから配列に変換
+    const selectedToArray: number[] = Array.from(selected);
+    setUnavailableTimes((prev) => ({ ...prev, [date]: selectedToArray }));
+  }, [date, selected]);
 
   // 選択対象の要素から data-key 属性の値を抽出して数値の配列に変換する関数
   const extractIds = (els: Element[]): number[] =>

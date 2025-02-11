@@ -1,21 +1,29 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { eventNameAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
+import React, { useEffect } from "react";
 
 const InputEventName = () => {
-  const [eventName, setEventName] = useState<string>("");
+  const [eventName, setEventName] = useAtom(eventNameAtom);
 
   //sessionStorageにeventNameがあればセットする
   useEffect(() => {
-    const storedEventName = sessionStorage.getItem("eventName");
-    if (storedEventName !== null) {
-      setEventName(storedEventName);
-    }
+    const storedData = sessionStorage.getItem("eventName");
+    const decompressedData = storedData
+      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+      : null;
+    setEventName(decompressedData ? decompressedData : "");
   }, []);
+
   const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setEventName(newValue);
-    sessionStorage.setItem("eventName", newValue);
+    const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
+      "base64"
+    );
+    setEventName(e.target.value);
+    sessionStorage.setItem("eventName", compressedData);
   };
+
   return (
     <div className="flex w-2/4 gap-10">
       <p className="text-lg font-semibold w-36 ">イベント名</p>

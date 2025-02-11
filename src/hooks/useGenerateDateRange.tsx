@@ -16,9 +16,12 @@ export const useGenerateDateRange = () => {
   //選択した候補日を最初のレンダリングで取得
   useEffect(() => {
     const storedData = sessionStorage.getItem("possibleDates");
-    if (storedData !== null) {
+    const decompressedData = storedData
+      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+      : null;
+    if (decompressedData !== null) {
       // sessionStorageから候補日を取得
-      const possibleDates: PossibleDate = JSON.parse(storedData);
+      const possibleDates: PossibleDate = decompressedData;
       //選択した候補日の開始と終了からを全ての日付を配列として生成
       const dateObjList = generateDateRange(possibleDates);
       // console.log(dateObjList);
@@ -56,5 +59,6 @@ export function initUnavailableTimes(dateList: string[]) {
   dateList.forEach((date) => {
     keyObj[date] = [];
   });
-  sessionStorage.setItem("unavailableTimes", JSON.stringify(keyObj));
+  const compressedData = Buffer.from(JSON.stringify(keyObj)).toString("base64");
+  sessionStorage.setItem("unavailableTimes", compressedData);
 }

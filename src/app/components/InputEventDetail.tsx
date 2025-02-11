@@ -1,22 +1,28 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { eventDetailAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
+import React, { useEffect } from "react";
 
 const InputEventDetail = () => {
-  const [eventDetail, setEventDetail] = useState<string>("");
+  const [eventDetail, setEventDetail] = useAtom(eventDetailAtom);
 
-  //sessionStorageにeventDetailがあればセットする
+  //sessionStorageにeventDetailがあればセットeventDetail状態にセットする
   useEffect(() => {
-    const eventDetailLog = sessionStorage.getItem("eventDetail");
-    if (eventDetailLog !== null) {
-      setEventDetail(eventDetailLog);
-    }
+    const storedData = sessionStorage.getItem("eventDetail");
+    const decompressedData = storedData
+      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+      : null;
+    setEventDetail(decompressedData ? decompressedData : "");
   }, []);
 
   const handleEdit = (e: { target: { value: string } }) => {
-    const newEventDetail = e.target.value;
-    setEventDetail(newEventDetail);
-    sessionStorage.setItem("eventDetail", newEventDetail);
+    const newValue = e.target.value;
+    const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
+      "base64"
+    );
+    setEventDetail(e.target.value);
+    sessionStorage.setItem("eventDetail", compressedData);
   };
   return (
     <div className="flex w-2/4 gap-10 mb-10">

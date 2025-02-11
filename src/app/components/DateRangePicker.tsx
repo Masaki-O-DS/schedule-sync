@@ -18,9 +18,10 @@ const DateRangePicker = ({
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("possibleDates");
-    if (storedData !== null) {
-      setDate(JSON.parse(storedData));
-    }
+    const decompressedData = storedData
+      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+      : null;
+    setDate(decompressedData);
   }, []);
 
   //カレンダーで候補日を選択するたびにsessionStorageが更新される
@@ -29,7 +30,8 @@ const DateRangePicker = ({
       isFirstRender.current = false;
       return;
     }
-    sessionStorage.setItem("possibleDates", JSON.stringify(date));
+    const compressedData = Buffer.from(JSON.stringify(date)).toString("base64");
+    sessionStorage.setItem("possibleDates", compressedData);
   }, [date]);
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {

@@ -1,13 +1,15 @@
 import { atom } from "jotai";
 
-export type EventInfo = {
-  eventName: string;
-  eventDetail: string;
-  possibleDates: string[];
-};
+interface UnavailableTimes {
+  [key: string]: number[];
+}
 
 //イベント関連のAtom定義
+export const unavailableTimesAtom = atom<UnavailableTimes>({});
+unavailableTimesAtom.debugLabel = "unavailableTimesAtom";
+
 export const eventNameAtom = atom<string>("");
+eventNameAtom.debugLabel = "unavailableTimesAtom";
+
 export const eventDetailAtom = atom<string>("");
-//possibleDates =>　候補日のこと
-export const possibleDatesAtom = atom<string[]>([]);
+eventDetailAtom.debugLabel = "eventDetailAtom";
