@@ -15,22 +15,35 @@ export const useGenerateDateRange = () => {
 
   //選択した候補日を最初のレンダリングで取得
   useEffect(() => {
-    const storedData = sessionStorage.getItem("possibleDates");
-    const decompressedData = storedData
-      ? JSON.parse(Buffer.from(storedData, "base64").toString())
+    const storedPossibleDatesData = sessionStorage.getItem("possibleDates");
+    const decompressedPossibleDatesData = storedPossibleDatesData
+      ? JSON.parse(Buffer.from(storedPossibleDatesData, "base64").toString())
       : null;
-    if (decompressedData !== null) {
+
+    if (decompressedPossibleDatesData !== null) {
       // sessionStorageから候補日を取得
-      const possibleDates: PossibleDate = decompressedData;
+      const possibleDates: PossibleDate = decompressedPossibleDatesData;
       //選択した候補日の開始と終了からを全ての日付を配列として生成
       const dateObjList = generateDateRange(possibleDates);
       // console.log(dateObjList);
 
       //範囲内の日付を全て取得
       const dateList = getAllDate(dateObjList);
-      console.log("dateList : ", dateList);
+
       // ここでsessionStorageのunavailabelTimesの初期化をする
-      initUnavailableTimes(dateList);
+      //sessionStorageに値があった場合、初期化を回避する。
+      const storedUnavailableTimesData =
+        sessionStorage.getItem("unavailableTimes");
+      if (storedUnavailableTimesData !== null) {
+        const decompressedUnavailableTimesData = storedPossibleDatesData
+          ? JSON.parse(
+              Buffer.from(storedUnavailableTimesData, "base64").toString()
+            )
+          : null;
+        if (decompressedUnavailableTimesData === null) {
+          initUnavailableTimes(dateList);
+        }
+      }
 
       setDates(dateList);
     } else {

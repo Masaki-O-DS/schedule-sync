@@ -1,11 +1,9 @@
 "use client";
 
-import { eventDetailAtom } from "@/store/atoms";
-import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const InputEventDetail = () => {
-  const [eventDetail, setEventDetail] = useAtom(eventDetailAtom);
+  const [eventDetail, setEventDetail] = useState("");
 
   //sessionStorageにeventDetailがあればセットeventDetail状態にセットする
   useEffect(() => {
@@ -21,7 +19,7 @@ const InputEventDetail = () => {
     const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
       "base64"
     );
-    setEventDetail(e.target.value);
+    setEventDetail(newValue);
     sessionStorage.setItem("eventDetail", compressedData);
   };
   return (

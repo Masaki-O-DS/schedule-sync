@@ -3,12 +3,7 @@
 import { Button } from "@/app/components/button";
 import DragSchedule from "@/app/components/DragSchedule";
 import EventName from "@/app/components/EventName";
-import {
-  eventDetailAtom,
-  eventIdAtom,
-  eventNameAtom,
-  unavailableTimesAtom,
-} from "@/store/atoms";
+import { eventIdAtom, unavailableTimesAtom } from "@/store/atoms";
 import { useAtom } from "jotai";
 import Link from "next/link";
 import React from "react";
@@ -20,12 +15,12 @@ export default function Page() {
 
   //linkshareページに飛ぶとともにfirestoreにデータを保管
   const handleClick = () => {
-    const compressedData = Buffer.from(
-      JSON.stringify(unavailableTimes)
-    ).toString("base64");
+    //ブラウザバックした時に以前の選択したデータを反映させるためにsessionStorageに保管
+    console.log("unavailableTimesの中身", unavailableTimes);
+    const compressedData = btoa(JSON.stringify(unavailableTimes));
 
     sessionStorage.setItem("unavailableTimes", compressedData);
-
+    console.log("sessionStorageにunavailableTimesを保管しました。");
     setEventId(nanoid());
 
     //ここでfireStoreに格納する処理を書く 全てのイベントを

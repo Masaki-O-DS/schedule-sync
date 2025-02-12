@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SelectionArea, SelectionEvent } from "@viselect/react";
 import { Button } from "./button";
 import { useAtom } from "jotai";
 import { unavailableTimesAtom } from "@/store/atoms";
-
-interface UnavailableTimes {
-  [key: string]: number[]; //key:日付 value:利用不可の時間の配列
-}
 
 const Selection = ({ date }: { date: string }) => {
   //1日中予定ありボタンを押しているかどうか
@@ -17,14 +13,37 @@ const Selection = ({ date }: { date: string }) => {
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
   //Jotaiでatomを取得
   const [unavailableTimes, setUnavailableTimes] = useAtom(unavailableTimesAtom);
+  const isFirstRender = useRef(true);
+  interface DecompressedData {
+    [key: string]: number[];
+  }
 
-  console.log(unavailableTimes);
-  //毎回sessionstorageを保管する方法ではなく、確定ボタンを押されたらsessionstorageに保管する方向でいこう
-  //考えないといけないのは,確定ボタンを押したらDBに保管するはずなのでわざわざsessionStorageに保管しないといけないのか問題がある。
-  //場合によっては、useStateでunavailableTimesの状態だけを保持しておいてsessionsotrageには保管しないといけないかもしれない。
+  // 初期レンダリング時にsessionStorageのデータを読み込み;
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("unavailableTimes");
+    if (storedData) {
+      try {
+        const decompressedData: DecompressedData = JSON.parse(atob(storedData));
+        const unavailableDatesArray: number[] = decompressedData[date];
+        console.log();
+        setSelected(new Set(unavailableDatesArray));
+        //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
+        if (unavailableDatesArray.length === 19) {
+          setIsSetAllSchedule(true);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
 
   //時間が選択されるたびにJotaiで状態管理
   useEffect(() => {
+    //初回レンダリング時は回避
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     //Setから配列に変換
     const selectedToArray: number[] = Array.from(selected);
     setUnavailableTimes((prev) => ({ ...prev, [date]: selectedToArray }));
@@ -74,8 +93,6 @@ const Selection = ({ date }: { date: string }) => {
     setIsSetAllSchedule(false);
     setSelected(new Set());
   };
-
-  console.log(date, selected);
 
   return (
     <div className="flex flex-col justify-center gap-y-5 items-center">

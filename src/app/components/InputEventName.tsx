@@ -1,10 +1,8 @@
 "use client";
-import { eventNameAtom } from "@/store/atoms";
-import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const InputEventName = () => {
-  const [eventName, setEventName] = useAtom(eventNameAtom);
+  const [eventName, setEventName] = useState("");
 
   //sessionStorageにeventNameがあればセットする
   useEffect(() => {
@@ -20,7 +18,7 @@ const InputEventName = () => {
     const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
       "base64"
     );
-    setEventName(e.target.value);
+    setEventName(newValue);
     sessionStorage.setItem("eventName", compressedData);
   };
 

@@ -24,13 +24,13 @@ export const useInitEventStorage = () => {
     if (storedPossibleDatesData === null) {
       sessionStorage.setItem(
         "possibleDates",
-        Buffer.from(JSON.stringify("")).toString("base64")
+        Buffer.from(JSON.stringify([])).toString("base64")
       );
     }
     if (storedUnavailableDatesData === null) {
       sessionStorage.setItem(
         "unavailableTimes",
-        Buffer.from(JSON.stringify("")).toString("base64")
+        Buffer.from(JSON.stringify({})).toString("base64")
       );
     }
   }, []);

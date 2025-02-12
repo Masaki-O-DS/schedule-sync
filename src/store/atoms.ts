@@ -4,15 +4,10 @@ interface UnavailableTimes {
   [key: string]: number[];
 }
 
-//イベント関連のAtom定義
+//利用不可の時間帯の状態管理
 export const unavailableTimesAtom = atom<UnavailableTimes>({});
 unavailableTimesAtom.debugLabel = "unavailableTimesAtom";
 
-export const eventNameAtom = atom<string>("");
-eventNameAtom.debugLabel = "unavailableTimesAtom";
-
-export const eventDetailAtom = atom<string>("");
-eventDetailAtom.debugLabel = "eventDetailAtom";
-
+//eventIdの状態管理
 export const eventIdAtom = atom<string>("");
 eventIdAtom.debugLabel = "eventId";
