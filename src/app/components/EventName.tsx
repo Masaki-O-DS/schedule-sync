@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { clientDecodeBase64Json } from "../utils/sessionStorageUtils";
 
 const EventName = () => {
   const [eventName, setEventName] = useState<string>("");
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("eventName");
-    const decompressedData = storedData
-      ? JSON.parse(Buffer.from(storedData, "base64").toString())
-      : null;
-
-    setEventName(decompressedData);
+    const decodedData = clientDecodeBase64Json<string>(storedData);
+    if (decodedData) {
+      setEventName(decodedData);
+    }
   }, []);
 
   return (

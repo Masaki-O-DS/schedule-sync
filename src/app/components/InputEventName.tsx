@@ -1,25 +1,32 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { eventInfoAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
+import React, { useEffect } from "react";
+import {
+  clientDecodeBase64Json,
+  clientEncodeBase64Json,
+} from "../utils/sessionStorageUtils";
 
 const InputEventName = () => {
-  const [eventName, setEventName] = useState("");
+  const [eventInfo, setEventInfo] = useAtom(eventInfoAtom);
 
   //sessionStorageにeventNameがあればセットする
   useEffect(() => {
     const storedData = sessionStorage.getItem("eventName");
-    const decompressedData = storedData
-      ? JSON.parse(Buffer.from(storedData, "base64").toString())
-      : null;
-    setEventName(decompressedData ? decompressedData : "");
+    const decodedData = clientDecodeBase64Json<string>(storedData);
+    setEventInfo((prev) => ({
+      ...prev,
+      eventName: decodedData ? decodedData : "",
+    }));
   }, []);
 
   const handleEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
-      "base64"
-    );
-    setEventName(newValue);
-    sessionStorage.setItem("eventName", compressedData);
+    setEventInfo((prev) => ({ ...prev, eventName: newValue }));
+    const encodedData = clientEncodeBase64Json<string>(newValue);
+    if (encodedData) {
+      sessionStorage.setItem("eventName", encodedData);
+    }
   };
 
   return (
@@ -30,7 +37,7 @@ const InputEventName = () => {
         className="rounded-sm border-gray-400 p-1 border-solid border border-opacity-50 w-full"
         placeholder="イベント名を記入"
         onChange={(e) => handleEdit(e)}
-        value={eventName}
+        value={eventInfo.eventName}
       />
     </div>
   );

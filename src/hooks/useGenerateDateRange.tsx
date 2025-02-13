@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { generateDateRange } from "../app/utils/generateDateRange";
+import { serverDecodeBase64Json } from "@/app/utils/sessionStorageUtils";
 
 interface PossibleDate {
   from: string;
   to: string;
 }
 
+interface UnavailableDates {
+  [key: string]: number[];
+}
 interface StoreData {
   [key: string]: number[];
 }
@@ -16,16 +20,15 @@ export const useGenerateDateRange = () => {
   //選択した候補日を最初のレンダリングで取得
   useEffect(() => {
     const storedPossibleDatesData = sessionStorage.getItem("possibleDates");
-    const decompressedPossibleDatesData = storedPossibleDatesData
-      ? JSON.parse(Buffer.from(storedPossibleDatesData, "base64").toString())
-      : null;
+    const decodedPossibleDates = serverDecodeBase64Json<PossibleDate>(
+      storedPossibleDatesData
+    );
 
-    if (decompressedPossibleDatesData !== null) {
+    if (decodedPossibleDates !== undefined) {
       // sessionStorageから候補日を取得
-      const possibleDates: PossibleDate = decompressedPossibleDatesData;
+      const possibleDates: PossibleDate = decodedPossibleDates;
       //選択した候補日の開始と終了からを全ての日付を配列として生成
       const dateObjList = generateDateRange(possibleDates);
-      // console.log(dateObjList);
 
       //範囲内の日付を全て取得
       const dateList = getAllDate(dateObjList);
@@ -34,15 +37,11 @@ export const useGenerateDateRange = () => {
       //sessionStorageに値があった場合、初期化を回避する。
       const storedUnavailableTimesData =
         sessionStorage.getItem("unavailableTimes");
-      if (storedUnavailableTimesData !== null) {
-        const decompressedUnavailableTimesData = storedPossibleDatesData
-          ? JSON.parse(
-              Buffer.from(storedUnavailableTimesData, "base64").toString()
-            )
-          : null;
-        if (decompressedUnavailableTimesData === null) {
-          initUnavailableTimes(dateList);
-        }
+      const decodedUnavailableTimes = serverDecodeBase64Json<UnavailableDates>(
+        storedUnavailableTimesData
+      );
+      if (decodedUnavailableTimes === undefined) {
+        initUnavailableTimes(dateList);
       }
 
       setDates(dateList);
@@ -72,6 +71,8 @@ export function initUnavailableTimes(dateList: string[]) {
   dateList.forEach((date) => {
     keyObj[date] = [];
   });
-  const compressedData = Buffer.from(JSON.stringify(keyObj)).toString("base64");
+  const compressedData = Buffer.from(
+    encodeURIComponent(JSON.stringify(keyObj))
+  ).toString("base64");
   sessionStorage.setItem("unavailableTimes", compressedData);
 }

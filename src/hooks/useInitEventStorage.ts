@@ -10,28 +10,16 @@ export const useInitEventStorage = () => {
       sessionStorage.getItem("unavailableTimes");
 
     if (storedEventNameData === null) {
-      sessionStorage.setItem(
-        "eventName",
-        Buffer.from(JSON.stringify("")).toString("base64")
-      );
+      sessionStorage.setItem("eventName", "");
     }
     if (storedEventDetailData === null) {
-      sessionStorage.setItem(
-        "eventDetail",
-        Buffer.from(JSON.stringify("")).toString("base64")
-      );
+      sessionStorage.setItem("eventDetail", "");
     }
     if (storedPossibleDatesData === null) {
-      sessionStorage.setItem(
-        "possibleDates",
-        Buffer.from(JSON.stringify([])).toString("base64")
-      );
+      sessionStorage.setItem("possibleDates", "");
     }
     if (storedUnavailableDatesData === null) {
-      sessionStorage.setItem(
-        "unavailableTimes",
-        Buffer.from(JSON.stringify({})).toString("base64")
-      );
+      sessionStorage.setItem("unavailableTimes", "");
     }
   }, []);
 };

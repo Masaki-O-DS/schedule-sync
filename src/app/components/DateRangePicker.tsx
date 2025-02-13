@@ -6,6 +6,10 @@ import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  clientDecodeBase64Json,
+  clientEncodeBase64Json,
+} from "../utils/sessionStorageUtils";
 
 const DateRangePicker = ({
   className,
@@ -19,10 +23,8 @@ const DateRangePicker = ({
   //初回レンダリング時にsessionStorageからデータ取得
   useEffect(() => {
     const storedData = sessionStorage.getItem("possibleDates");
-    const decompressedData = storedData
-      ? JSON.parse(Buffer.from(storedData, "base64").toString())
-      : null;
-    setDate(decompressedData);
+    const decodedData = clientDecodeBase64Json<DateRange>(storedData);
+    setDate(decodedData);
   }, []);
 
   //カレンダーで候補日を選択するたびにsessionStorageが更新される
@@ -31,8 +33,10 @@ const DateRangePicker = ({
       isFirstRender.current = false;
       return;
     }
-    const compressedData = Buffer.from(JSON.stringify(date)).toString("base64");
-    sessionStorage.setItem("possibleDates", compressedData);
+    const encodedData = clientEncodeBase64Json<DateRange>(date);
+    if (encodedData) {
+      sessionStorage.setItem("possibleDates", encodedData);
+    }
   }, [date]);
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {

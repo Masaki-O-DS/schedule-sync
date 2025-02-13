@@ -8,22 +8,30 @@ import { useAtom } from "jotai";
 import Link from "next/link";
 import React from "react";
 import { nanoid } from "nanoid";
+import { addData } from "../../../../services/fireStore/guestCrud";
+import { clientEncodeBase64Json } from "@/app/utils/sessionStorageUtils";
+
+interface UnavailableDates {
+  [key: string]: number[];
+}
 
 export default function Page() {
-  const [unavailableTimes, setUnavailableTimes] = useAtom(unavailableTimesAtom);
+  const [unavailableTimes] = useAtom(unavailableTimesAtom);
   const [eventId, setEventId] = useAtom(eventIdAtom);
 
   //linkshareページに飛ぶとともにfirestoreにデータを保管
   const handleClick = () => {
     //ブラウザバックした時に以前の選択したデータを反映させるためにsessionStorageに保管
-    console.log("unavailableTimesの中身", unavailableTimes);
-    const compressedData = btoa(JSON.stringify(unavailableTimes));
+    const encodedData =
+      clientEncodeBase64Json<UnavailableDates>(unavailableTimes);
+    if (encodedData) {
+      sessionStorage.setItem("unavailableTimes", encodedData);
+    }
 
-    sessionStorage.setItem("unavailableTimes", compressedData);
-    console.log("sessionStorageにunavailableTimesを保管しました。");
     setEventId(nanoid());
 
-    //ここでfireStoreに格納する処理を書く 全てのイベントを
+    //ここでfireStoreに格納する処理を書く
+    // addData(eventId, )
   };
   return (
     <div className="flex-col flex items-center ">

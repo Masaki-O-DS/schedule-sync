@@ -5,34 +5,29 @@ import { SelectionArea, SelectionEvent } from "@viselect/react";
 import { Button } from "./button";
 import { useAtom } from "jotai";
 import { unavailableTimesAtom } from "@/store/atoms";
-
+import { clientDecodeBase64Json } from "../utils/sessionStorageUtils";
+interface UnavailableDates {
+  [key: string]: number[];
+}
 const Selection = ({ date }: { date: string }) => {
   //1日中予定ありボタンを押しているかどうか
   const [isSetAllSchedule, setIsSetAllSchedule] = useState(false);
   // 選択された要素の ID を保持する state（Set を使用）
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
   //Jotaiでatomを取得
-  const [unavailableTimes, setUnavailableTimes] = useAtom(unavailableTimesAtom);
+  const [, setUnavailableTimes] = useAtom(unavailableTimesAtom);
   const isFirstRender = useRef(true);
-  interface DecompressedData {
-    [key: string]: number[];
-  }
 
   // 初期レンダリング時にsessionStorageのデータを読み込み;
   useEffect(() => {
     const storedData = sessionStorage.getItem("unavailableTimes");
-    if (storedData) {
-      try {
-        const decompressedData: DecompressedData = JSON.parse(atob(storedData));
-        const unavailableDatesArray: number[] = decompressedData[date];
-        console.log();
-        setSelected(new Set(unavailableDatesArray));
-        //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
-        if (unavailableDatesArray.length === 19) {
-          setIsSetAllSchedule(true);
-        }
-      } catch (e) {
-        console.error(e);
+    const decodedData = clientDecodeBase64Json<UnavailableDates>(storedData);
+    if (decodedData) {
+      const unavailableDatesArray: number[] = decodedData[date] || [];
+      setSelected(new Set(unavailableDatesArray));
+      //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
+      if (unavailableDatesArray.length === 19) {
+        setIsSetAllSchedule(true);
       }
     }
   }, []);

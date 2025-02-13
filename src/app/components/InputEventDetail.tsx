@@ -1,26 +1,35 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { eventInfoAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
+import React, { useEffect } from "react";
+import {
+  clientDecodeBase64Json,
+  clientEncodeBase64Json,
+} from "../utils/sessionStorageUtils";
 
 const InputEventDetail = () => {
-  const [eventDetail, setEventDetail] = useState("");
+  const [eventInfo, setEventInfo] = useAtom(eventInfoAtom);
 
   //sessionStorageにeventDetailがあればセットeventDetail状態にセットする
   useEffect(() => {
     const storedData = sessionStorage.getItem("eventDetail");
-    const decompressedData = storedData
-      ? JSON.parse(Buffer.from(storedData, "base64").toString())
-      : null;
-    setEventDetail(decompressedData ? decompressedData : "");
+    const decodedData = clientDecodeBase64Json<string>(storedData);
+    if (storedData) {
+      setEventInfo((prev) => ({
+        ...prev,
+        eventDetail: decodedData ? decodedData : "",
+      }));
+    }
   }, []);
 
   const handleEdit = (e: { target: { value: string } }) => {
     const newValue = e.target.value;
-    const compressedData = Buffer.from(JSON.stringify(newValue)).toString(
-      "base64"
-    );
-    setEventDetail(newValue);
-    sessionStorage.setItem("eventDetail", compressedData);
+    setEventInfo((prev) => ({ ...prev, eventDetail: newValue }));
+    const encodedData = clientEncodeBase64Json<string>(newValue);
+    if (encodedData) {
+      sessionStorage.setItem("eventDetail", encodedData);
+    }
   };
   return (
     <div className="flex w-2/4 gap-10 mb-10">
@@ -31,7 +40,7 @@ const InputEventDetail = () => {
         id=""
         placeholder="開催場所や開催理由、イベントの内容を記入"
         onChange={(e) => handleEdit(e)}
-        value={eventDetail}
+        value={eventInfo.eventDetail}
       ></textarea>
     </div>
   );
