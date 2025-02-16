@@ -53,7 +53,9 @@ export default function Page() {
       <div className="flex justify-around h-20 items-center w-2/4">
         <EventName />
         <Link href={"/linkshare"}>
-          <Button onClick={handleClick}>確定</Button>
+          <Button className="cursor-pointer" onClick={handleClick}>
+            確定
+          </Button>
         </Link>
       </div>
       <DragSchedule></DragSchedule>

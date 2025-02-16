@@ -1,14 +1,17 @@
 "use client";
 
 import { Button } from "@/app/components/button";
+import { eventIdAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
 const CopyLinkButton = () => {
+  const [id] = useAtom(eventIdAtom);
   const pathname = usePathname();
   const url =
-    `${window.location.origin}` + pathname + "ここにシェア用のidを入れる";
+    `${window.location.origin}` + pathname + "/invitation?id=" + `${id}`;
   const handleCopy = () => {
     toast("URLをクリップボードにコピーしました");
     navigator.clipboard.writeText(url);
@@ -20,11 +23,7 @@ const CopyLinkButton = () => {
         type="text"
         className="w-96 overflow-x-scroll rounded-sm h-8 p-1"
         readOnly
-        value={
-          `${window.location.origin}` +
-          `${pathname}` +
-          `ここにシェア用のidを入れる`
-        }
+        value={`${window.location.origin}` + `${pathname}/invitation?id=${id}`}
       />
       <Button
         onClick={handleCopy}
