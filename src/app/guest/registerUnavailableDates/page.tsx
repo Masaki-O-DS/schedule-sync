@@ -32,15 +32,16 @@ export default function Page() {
     if (encodedData) {
       sessionStorage.setItem("unavailableTimes", encodedData);
     }
+    const uniqueId = nanoid();
 
-    setEventId(nanoid());
+    setEventId(uniqueId);
 
     if (eventId === undefined) {
       console.error("idがセットされていない");
     }
     //ここでfireStoreに格納する処理を書く
     addData(
-      eventId,
+      uniqueId,
       eventInfo.eventName,
       eventInfo.eventDetail,
       eventInfo.possibleDates,
