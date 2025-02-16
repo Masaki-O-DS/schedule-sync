@@ -15,12 +15,10 @@ const InputEventDetail = () => {
   useEffect(() => {
     const storedData = sessionStorage.getItem("eventDetail");
     const decodedData = clientDecodeBase64Json<string>(storedData);
-    if (storedData) {
-      setEventInfo((prev) => ({
-        ...prev,
-        eventDetail: decodedData ? decodedData : "",
-      }));
-    }
+    setEventInfo((prev) => ({
+      ...prev,
+      eventDetail: decodedData ? decodedData : "",
+    }));
   }, []);
 
   const handleEdit = (e: { target: { value: string } }) => {

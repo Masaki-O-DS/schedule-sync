@@ -6,10 +6,26 @@ import React from "react";
 const TopButtons = () => {
   const handleClick = () => {
     //イベント情報をsessionStorageで保管するために初期化
-    sessionStorage.setItem("eventName", "");
-    sessionStorage.setItem("eventDetail", "");
-    sessionStorage.setItem("possibleDates", "");
-    sessionStorage.setItem("unavailableTimes", "");
+    try {
+      sessionStorage.setItem("eventName", "");
+    } catch {
+      console.log("sessionStorageのeventNameを初期化できませんでした");
+    }
+    try {
+      sessionStorage.setItem("eventDetail", "");
+    } catch {
+      console.log("sessionStorageのeventDetailを初期化できませんでした");
+    }
+    try {
+      sessionStorage.setItem("possibleDates", "");
+    } catch {
+      console.log("sessionStorageのpossibleDatesを初期化できませんでした");
+    }
+    try {
+      sessionStorage.setItem("unavailableTimes", "");
+    } catch {
+      console.log("sessionStorageのunavailableTimesを初期化できませんでした");
+    }
   };
   return (
     <div className="flex flex-col gap-y-4 w-56 mt-5">

@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 interface unavailableTimes {
   [key: string]: number[];

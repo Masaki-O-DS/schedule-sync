@@ -3,7 +3,11 @@
 import { Button } from "@/app/components/button";
 import DragSchedule from "@/app/components/DragSchedule";
 import EventName from "@/app/components/EventName";
-import { eventIdAtom, unavailableTimesAtom } from "@/store/atoms";
+import {
+  eventIdAtom,
+  eventInfoAtom,
+  unavailableTimesAtom,
+} from "@/store/atoms";
 import { useAtom } from "jotai";
 import Link from "next/link";
 import React from "react";
@@ -16,6 +20,7 @@ interface UnavailableDates {
 }
 
 export default function Page() {
+  const [eventInfo] = useAtom(eventInfoAtom);
   const [unavailableTimes] = useAtom(unavailableTimesAtom);
   const [eventId, setEventId] = useAtom(eventIdAtom);
 
@@ -30,8 +35,17 @@ export default function Page() {
 
     setEventId(nanoid());
 
+    if (eventId === undefined) {
+      console.error("idがセットされていない");
+    }
     //ここでfireStoreに格納する処理を書く
-    // addData(eventId, )
+    addData(
+      eventId,
+      eventInfo.eventName,
+      eventInfo.eventDetail,
+      eventInfo.possibleDates,
+      unavailableTimes
+    );
   };
   return (
     <div className="flex-col flex items-center ">
