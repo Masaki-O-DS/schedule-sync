@@ -9,6 +9,7 @@ import EventDetail from "@/app/components/EventDetail";
 import DragSchedule from "@/app/components/DragSchedule";
 import { DateRange } from "react-day-picker";
 import { timeStampToDateObj } from "@/app/utils/timeStampToDate";
+import { Button } from "@/components/ui/button";
 
 interface EventData {
   eventName: string;
@@ -51,14 +52,26 @@ const Page = () => {
     fetchEventData();
   }, [id]);
 
+  const handleClick = () => {};
+  //明日はここを実装しよう
+
   return (
-    <div>
+    <div className="flex-col flex justify-center items-center">
       <Header>
         <></>
       </Header>
-      <EventName source="fireStore" text={data?.eventName}></EventName>
-      <EventDetail source="fireStore" text={data?.eventDetail}></EventDetail>
-      <DragSchedule possibleDates={data ? data.possibleDates : {}} />
+      <div className="flex flex-col justify-center items-start gap-y-4 w-2/4 py-5">
+        <div className="flex justify-between items-center w-full">
+          <EventName source="fireStore" text={data?.eventName}></EventName>
+          <Button className="font-bold text-lg" onClick={handleClick}>
+            確定
+          </Button>
+        </div>
+        <EventDetail source="fireStore" text={data?.eventDetail}></EventDetail>
+      </div>
+
+      <DragSchedule possibleDates={data?.possibleDates} />
+
       <Footer></Footer>
     </div>
   );

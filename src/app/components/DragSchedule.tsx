@@ -5,7 +5,7 @@ import { useGenerateDateRange } from "@/hooks/useGenerateDateRange";
 import { DateRange } from "react-day-picker";
 
 interface DragScheduleProps {
-  possibleDates: DateRange;
+  possibleDates: DateRange | undefined;
 }
 
 const DragSchedule: React.FC<DragScheduleProps> = ({ possibleDates }) => {

@@ -27,8 +27,8 @@ const EventName: React.FC<EventNameProps> = ({ source, text }) => {
 
   return (
     <div className="flex ">
-      <p className="font-semibold text-xl">イベント名 : </p>
-      <p className="text-xl font-medium">{eventName}</p>
+      <p className="font-semibold text-xl w-36 ">イベント名 : </p>
+      <p className="text-xl font-medium flex-1">{eventName}</p>
     </div>
   );
 };
