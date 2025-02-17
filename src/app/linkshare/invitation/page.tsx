@@ -7,11 +7,13 @@ import Footer from "@/app/components/Footer";
 import EventName from "@/app/components/EventName";
 import EventDetail from "@/app/components/EventDetail";
 import DragSchedule from "@/app/components/DragSchedule";
+import { DateRange } from "react-day-picker";
+import { timeStampToDateObj } from "@/app/utils/timeStampToDate";
 
 interface EventData {
   eventName: string;
   eventDetail: string;
-  possibleDates: string[];
+  possibleDates: DateRange;
   unavailableDates: { [key: string]: number[] };
 }
 
@@ -29,8 +31,18 @@ const Page = () => {
 
       try {
         const eventData = await fetchData(id as string);
-        setData(eventData as EventData);
-        console.log(eventData);
+        //possibleDateはtimeStamp型なのでそれをDate型に戻す
+        if (eventData) {
+          const from = timeStampToDateObj(eventData.possibleDates.from);
+          const to = timeStampToDateObj(eventData.possibleDates.to);
+          const convertedEventData = {
+            ...eventData,
+            possibleDates: { from, to },
+          };
+
+          setData(convertedEventData as EventData);
+          console.log("eventData", eventData);
+        }
       } catch (error) {
         console.error("データ取得を失敗:", error);
       }
@@ -46,7 +58,7 @@ const Page = () => {
       </Header>
       <EventName source="fireStore" text={data?.eventName}></EventName>
       <EventDetail source="fireStore" text={data?.eventDetail}></EventDetail>
-      <DragSchedule data={data?.possibleDates} />
+      <DragSchedule possibleDates={data ? data.possibleDates : {}} />
       <Footer></Footer>
     </div>
   );

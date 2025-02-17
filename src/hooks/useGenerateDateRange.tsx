@@ -28,8 +28,6 @@ export const useGenerateDateRange = ({
   const [storedData, setStoredData] = useState<DateRange>(
     data ? data : { from: undefined, to: undefined }
   );
-  console.log("storedData", storedData);
-  console.log("data", data);
 
   //選択した候補日を最初のレンダリングで取得
   useEffect(() => {

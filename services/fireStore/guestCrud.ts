@@ -4,6 +4,14 @@ import { DateRange } from "react-day-picker";
 interface unavailableTimes {
   [key: string]: number[];
 }
+
+interface EventData {
+  eventName: string;
+  eventDetail: string;
+  possibleDates: { from: Timestamp; to: Timestamp };
+  unavailableDates: { [key: string]: number[] };
+}
+
 export const addData = async (
   id: string,
   eventName: string,
@@ -33,18 +41,20 @@ export const addData = async (
  eventName,
  possibleDates,
  unavailableDates} 
-*/ export const fetchData = async (docId: string) => {
+*/ export const fetchData = async (
+  docId: string
+): Promise<EventData | null> => {
   try {
     const docRef = doc(db, "GuestUser", docId);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      return data;
-    } else {
-      return console.error("ドキュメントが見つかりません");
+    if (!docSnap.exists()) {
+      console.error("ドキュメントが見つかりません");
+      return null;
     }
+
+    return docSnap.data() as EventData;
   } catch (err) {
     console.error("dbのアクセスに失敗", err);
-    return;
+    return null;
   }
 };
