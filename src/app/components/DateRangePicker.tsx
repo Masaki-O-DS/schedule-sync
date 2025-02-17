@@ -10,21 +10,38 @@ import {
   clientDecodeBase64Json,
   clientEncodeBase64Json,
 } from "../utils/sessionStorageUtils";
+import { eventInfoAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
 
 const DateRangePicker = ({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) => {
+  //viSelectのdefaultの状態変数
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: undefined,
     to: undefined,
   });
-  const isFirstRender = useRef(true); //初回レンダリング時にsessionStorageが更新されるのを防ぐのに使う
+  //初回レンダリング時にsessionStorageが更新されるのを防ぐのに使う
+  const isFirstRender = useRef(true);
+  //グローバルで管理する候補日の状態
+  const [possibleDates, setPossibleDates] = useAtom(eventInfoAtom);
 
   //初回レンダリング時にsessionStorageからデータ取得
   useEffect(() => {
     const storedData = sessionStorage.getItem("possibleDates");
     const decodedData = clientDecodeBase64Json<DateRange>(storedData);
-    setDate(decodedData);
+    const convertedDates = {
+      possibleDates: {
+        from: decodedData?.from ? new Date(decodedData.from) : undefined,
+        to: decodedData?.to ? new Date(decodedData.to) : undefined,
+      },
+    };
+    // console.log("convertedDatesの中身", convertedDates);
+    setDate(convertedDates.possibleDates);
+    setPossibleDates((prev) => ({
+      ...prev,
+      ...convertedDates,
+    }));
   }, []);
 
   //カレンダーで候補日を選択するたびにsessionStorageが更新される
@@ -33,11 +50,22 @@ const DateRangePicker = ({
       isFirstRender.current = false;
       return;
     }
+    if (date) {
+      setPossibleDates((prev) => ({
+        ...prev,
+        possibleDates: date,
+      }));
+    }
+
     const encodedData = clientEncodeBase64Json<DateRange>(date);
     if (encodedData) {
       sessionStorage.setItem("possibleDates", encodedData);
     }
-  }, [date]);
+  }, [date, setPossibleDates]);
+
+  useEffect(() => {
+    console.log("possibleDatesの中身", possibleDates);
+  }, [possibleDates]);
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {
     setDate({ from: undefined, to: undefined });

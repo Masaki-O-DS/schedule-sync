@@ -1,16 +1,13 @@
-import { eachDayOfInterval, parseISO } from "date-fns";
+import { eachDayOfInterval } from "date-fns";
+import { DateRange } from "react-day-picker";
 
-export interface PossibleDate {
-  from: string;
-  to: string;
-}
-
-export function generateDateRange(possibleDate: PossibleDate) {
-  const fromDate = possibleDate.from;
-  const toDate = possibleDate.to;
-  const start = parseISO(fromDate);
-  const end = parseISO(toDate);
-  const dates = eachDayOfInterval({ start, end });
-
-  return dates;
+export function generateDateRange(possibleDate: DateRange): Date[] {
+  const start = possibleDate.from;
+  const end = possibleDate.to;
+  if (start !== undefined && end !== undefined) {
+    const dates = eachDayOfInterval({ start, end });
+    return dates;
+  } else {
+    return [];
+  }
 }

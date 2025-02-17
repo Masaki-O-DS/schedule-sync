@@ -10,7 +10,7 @@ import {
 } from "@/store/atoms";
 import { useAtom } from "jotai";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { nanoid } from "nanoid";
 import { addData } from "../../../../services/fireStore/guestCrud";
 import { clientEncodeBase64Json } from "@/app/utils/sessionStorageUtils";
@@ -23,6 +23,10 @@ export default function Page() {
   const [eventInfo] = useAtom(eventInfoAtom);
   const [unavailableTimes] = useAtom(unavailableTimesAtom);
   const [eventId, setEventId] = useAtom(eventIdAtom);
+
+  useEffect(() => {
+    console.log("eventInfoの中身", eventInfo);
+  }, [eventInfo]);
 
   //linkshareページに飛ぶとともにfirestoreにデータを保管
   const handleClick = () => {
@@ -40,25 +44,29 @@ export default function Page() {
       console.error("idがセットされていない");
     }
     //ここでfireStoreに格納する処理を書く
-    addData(
-      uniqueId,
-      eventInfo.eventName,
-      eventInfo.eventDetail,
-      eventInfo.possibleDates,
-      unavailableTimes
-    );
+    if (eventInfo.possibleDates) {
+      addData(
+        uniqueId,
+        eventInfo.eventName,
+        eventInfo.eventDetail,
+        eventInfo.possibleDates,
+        unavailableTimes,
+        new Date()
+      );
+    }
   };
+
   return (
     <div className="flex-col flex items-center ">
       <div className="flex justify-around h-20 items-center w-2/4">
-        <EventName />
+        <EventName source="session" />
         <Link href={"/linkshare"}>
           <Button className="cursor-pointer" onClick={handleClick}>
             確定
           </Button>
         </Link>
       </div>
-      <DragSchedule></DragSchedule>
+      <DragSchedule possibleDates={eventInfo.possibleDates}></DragSchedule>
     </div>
   );
 }

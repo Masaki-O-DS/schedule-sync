@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { generateDateRange } from "../app/utils/generateDateRange";
 import { serverDecodeBase64Json } from "@/app/utils/sessionStorageUtils";
+import { DateRange } from "react-day-picker";
 
 interface PossibleDate {
   from: string;
@@ -10,25 +11,48 @@ interface PossibleDate {
 interface UnavailableDates {
   [key: string]: number[];
 }
-interface StoreData {
+interface StoredData {
   [key: string]: number[];
 }
 
-export const useGenerateDateRange = () => {
+interface GenerateDataRangeProps {
+  source: "session" | "fireStore";
+  data?: DateRange;
+}
+
+export const useGenerateDateRange = ({
+  source,
+  data,
+}: GenerateDataRangeProps) => {
   const [dates, setDates] = useState<string[]>();
+  const [storedData, setStoredData] = useState<DateRange>(
+    data ? data : { from: undefined, to: undefined }
+  );
+  console.log("storedData", storedData);
+  console.log("data", data);
 
   //選択した候補日を最初のレンダリングで取得
   useEffect(() => {
-    const storedPossibleDatesData = sessionStorage.getItem("possibleDates");
-    const decodedPossibleDates = serverDecodeBase64Json<PossibleDate>(
-      storedPossibleDatesData
-    );
+    if (source === "session") {
+      const storedPossibleDatesData = sessionStorage.getItem("possibleDates");
+      const decodedPossibleDates = serverDecodeBase64Json<PossibleDate>(
+        storedPossibleDatesData
+      );
+      if (decodedPossibleDates) {
+        setStoredData({
+          from: new Date(decodedPossibleDates.from),
+          to: new Date(decodedPossibleDates.to),
+        });
+      }
+    } else if (source === "fireStore" && data) {
+      setStoredData(data);
+    }
+  }, [source, data]);
 
-    if (decodedPossibleDates !== undefined) {
-      // sessionStorageから候補日を取得
-      const possibleDates: PossibleDate = decodedPossibleDates;
+  useEffect(() => {
+    if (storedData.from !== undefined && storedData.to !== undefined) {
       //選択した候補日の開始と終了からを全ての日付を配列として生成
-      const dateObjList = generateDateRange(possibleDates);
+      const dateObjList = generateDateRange(storedData);
 
       //範囲内の日付を全て取得
       const dateList = getAllDate(dateObjList);
@@ -48,7 +72,7 @@ export const useGenerateDateRange = () => {
     } else {
       setDates([]);
     }
-  }, []);
+  }, [storedData]);
 
   return dates;
 };
@@ -56,9 +80,8 @@ export const useGenerateDateRange = () => {
 //fromからtoまでの全ての日付を取得している
 export function getAllDate(dateObjList: Date[]) {
   return dateObjList.map((date) => {
-    const convertDateObj = new Date(date);
-    const tempExtractMonth = convertDateObj.getMonth();
-    const extractDate = convertDateObj.getDate();
+    const tempExtractMonth = date.getMonth();
+    const extractDate = date.getDate();
     const correctExtraMonth = tempExtractMonth + 1;
     //getMonthでは-1した月の値が得られるので下で+1してる
     return `${correctExtraMonth} / ${extractDate}`;
@@ -67,7 +90,7 @@ export function getAllDate(dateObjList: Date[]) {
 
 //sessionStorageのunavailableTimesの初期化
 export function initUnavailableTimes(dateList: string[]) {
-  const keyObj: StoreData = {};
+  const keyObj: StoredData = {};
   dateList.forEach((date) => {
     keyObj[date] = [];
   });

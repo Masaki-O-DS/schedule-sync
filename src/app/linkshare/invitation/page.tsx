@@ -1,8 +1,12 @@
 "use client";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../../../../services/fireStore/guestCrud";
 import { useSearchParams } from "next/navigation";
+import { Header } from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+import EventName from "@/app/components/EventName";
+import EventDetail from "@/app/components/EventDetail";
+import DragSchedule from "@/app/components/DragSchedule";
 
 interface EventData {
   eventName: string;
@@ -16,14 +20,17 @@ const Page = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
+  //fireStoreからデータを取得
   useEffect(() => {
     //クエリ取得まで待機
     const fetchEventData = async () => {
+      //idがセットされていない間は何も処理しない
       if (!id) return;
 
       try {
-        const eventData = await fetchData(id as string); // 🔹 `await` を追加
-        setData(eventData as EventData); // 🔹 型をキャスト
+        const eventData = await fetchData(id as string);
+        setData(eventData as EventData);
+        console.log(eventData);
       } catch (error) {
         console.error("データ取得を失敗:", error);
       }
@@ -31,7 +38,18 @@ const Page = () => {
 
     fetchEventData();
   }, [id]);
-  return <div>{data ? "ページのデータの取得に成功" : "loading"}</div>;
+
+  return (
+    <div>
+      <Header>
+        <></>
+      </Header>
+      <EventName source="fireStore" text={data?.eventName}></EventName>
+      <EventDetail source="fireStore" text={data?.eventDetail}></EventDetail>
+      <DragSchedule data={data?.possibleDates} />
+      <Footer></Footer>
+    </div>
+  );
 };
 
 export default Page;

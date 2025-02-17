@@ -1,11 +1,25 @@
-"use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Selection from "./Selection";
 import {} from "lucide-react";
 import { useGenerateDateRange } from "@/hooks/useGenerateDateRange";
+import { DateRange } from "react-day-picker";
 
-const DragSchedule = () => {
-  const dates = useGenerateDateRange();
+interface DragScheduleProps {
+  possibleDates: DateRange;
+}
+
+const DragSchedule: React.FC<DragScheduleProps> = ({ possibleDates }) => {
+  useEffect(() => {
+    console.log(
+      "DragScheduleコンポーネントで受け取っているpossibleDates",
+      possibleDates
+    );
+  }, [possibleDates]);
+
+  const dates = useGenerateDateRange({
+    source: "fireStore",
+    data: possibleDates,
+  });
 
   return (
     <div className="flex justify-center flex-col items-center w-screen font-semibold text-xl">
