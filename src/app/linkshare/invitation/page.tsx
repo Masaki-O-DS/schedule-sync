@@ -1,6 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../../../../services/fireStore/guestCrud";
+import {
+  fetchData,
+  updateData,
+} from "../../../../services/fireStore/guestCrud";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -11,9 +14,9 @@ import { DateRange } from "react-day-picker";
 import { timeStampToDateObj } from "@/app/utils/timeStampToDate";
 import { Button } from "@/components/ui/button";
 import { Timestamp } from "firebase/firestore";
-// import { eventIdAtom } from "@/store/atoms";
-// import { unavailableTimesAtom } from "@/store/atoms";
-// import { useAtom } from "jotai";
+import { unavailableDatesAtom } from "@/store/atoms";
+import { useAtom } from "jotai";
+import SendDataModal from "./components/SendDataModal";
 
 interface EventData {
   eventName: string;
@@ -27,7 +30,8 @@ const Page = () => {
   const [data, setData] = useState<EventData | undefined>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  // const [, setUnavailableTimes] = useAtom(unavailableTimesAtom);
+  const [unavailableDates] = useAtom(unavailableDatesAtom);
+  const [isModal, setIsModal] = useState(false);
 
   //fireStoreからデータを取得
   useEffect(() => {
@@ -65,12 +69,18 @@ const Page = () => {
   }
 
   const handleClick = () => {
-    //モーダルで送信されたことを表示しよう。
+    if (!id) {
+      console.error("IDが取得できませんでした");
+      return;
+    }
     //fireStoreに送信しよう
+    updateData(id, unavailableDates);
+    setIsModal(true);
   };
 
   return (
-    <div className="flex-col flex justify-center items-center">
+    <div className="flex-col flex justify-center items-center ">
+      {isModal && <SendDataModal />}
       <Header>
         <></>
       </Header>
@@ -85,7 +95,7 @@ const Page = () => {
       </div>
 
       <DragSchedule
-        unavailableDates={data?.unavailableDates || {}}
+        unavailableDatesProp={data?.unavailableDates || {}}
         source="fireStore"
         possibleDates={data?.possibleDates}
       />

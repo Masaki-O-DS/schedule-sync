@@ -7,18 +7,19 @@ import { DateRange } from "react-day-picker";
 interface DragScheduleProps {
   source: "session" | "fireStore";
   possibleDates: DateRange | undefined;
-  unavailableDates?: { [key: string]: number[] };
+  unavailableDatesProp?: { [key: string]: number[] };
 }
 
 const DragSchedule: React.FC<DragScheduleProps> = ({
   source,
   possibleDates,
-  unavailableDates,
+  unavailableDatesProp,
 }) => {
   const dates = useGenerateDateRange({
     source,
     data: possibleDates,
   });
+  console.log("unavailableDates : ", unavailableDatesProp);
 
   return (
     <div className="flex justify-center flex-col items-center w-screen font-semibold text-xl">
@@ -30,8 +31,8 @@ const DragSchedule: React.FC<DragScheduleProps> = ({
           {dates !== undefined &&
             dates.map((date, index) => (
               <Selection
-                unavailableTimes={
-                  unavailableDates ? unavailableDates[date] : []
+                unavailableTimesProp={
+                  unavailableDatesProp ? unavailableDatesProp[date] : []
                 }
                 source={source}
                 key={index}

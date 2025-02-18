@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { SelectionArea, SelectionEvent } from "@viselect/react";
 import { Button } from "./button";
 import { useAtom } from "jotai";
-import { unavailableTimesAtom } from "@/store/atoms";
+import { unavailableDatesAtom } from "@/store/atoms";
 import { clientDecodeBase64Json } from "../utils/sessionStorageUtils";
 interface UnavailableDates {
   [key: string]: number[];
@@ -12,18 +12,18 @@ interface UnavailableDates {
 const Selection = ({
   date,
   source,
-  unavailableTimes = [],
+  unavailableTimesProp = [],
 }: {
   date: string;
   source: string;
-  unavailableTimes?: number[];
+  unavailableTimesProp?: number[];
 }) => {
   //1日中予定ありボタンを押しているかどうか
   const [isSetAllSchedule, setIsSetAllSchedule] = useState(false);
   // 選択された要素の ID を保持する state（Set を使用）
   const [selected, setSelected] = useState<Set<number>>(() => new Set());
   //Jotaiでatomを取得
-  const [, setUnavailableTimes] = useAtom(unavailableTimesAtom);
+  const [, setUnavailableTimes] = useAtom(unavailableDatesAtom);
   const isFirstRender = useRef(true);
 
   // 初期レンダリング時にsessionStorageのデータを読み込み;
@@ -40,12 +40,12 @@ const Selection = ({
         }
       }
     } else if (source === "fireStore") {
-      setSelected(new Set(unavailableTimes));
+      setSelected(new Set(unavailableTimesProp));
       //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
-      if (unavailableTimes.length === 19) {
+      if (unavailableTimesProp.length === 19) {
         setIsSetAllSchedule(true);
       }
-      console.log("unavailableTimesの中身", unavailableTimes);
+      console.log("unavailableTimesの中身", unavailableTimesProp);
     }
   }, [date, source]);
 

@@ -6,7 +6,7 @@ import EventName from "@/app/components/EventName";
 import {
   eventIdAtom,
   eventInfoAtom,
-  unavailableTimesAtom,
+  unavailableDatesAtom,
 } from "@/store/atoms";
 import { useAtom } from "jotai";
 import Link from "next/link";
@@ -21,7 +21,7 @@ interface UnavailableDates {
 
 export default function Page() {
   const [eventInfo] = useAtom(eventInfoAtom);
-  const [unavailableTimes] = useAtom(unavailableTimesAtom);
+  const [unavailableTimes] = useAtom(unavailableDatesAtom);
   const [eventId, setEventId] = useAtom(eventIdAtom);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Page() {
         </Link>
       </div>
       <DragSchedule
-        unavailableDates={unavailableTimes}
+        unavailableDatesProp={unavailableTimes}
         source={"session"}
         possibleDates={eventInfo.possibleDates}
       ></DragSchedule>

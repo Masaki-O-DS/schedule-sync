@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { DateRange } from "react-day-picker";
 
-interface UnavailableTimes {
+interface UnavailableDates {
   [key: string]: number[];
 }
 
@@ -19,8 +19,8 @@ export const eventInfoAtom = atom<EventInfo>({
 });
 
 //利用不可の時間帯の状態管理
-export const unavailableTimesAtom = atom<UnavailableTimes>({});
-unavailableTimesAtom.debugLabel = "unavailableTimesAtom";
+export const unavailableDatesAtom = atom<UnavailableDates>({});
+unavailableDatesAtom.debugLabel = "unavailableTimesAtom";
 
 //eventIdの状態管理
 export const eventIdAtom = atom<string>("");

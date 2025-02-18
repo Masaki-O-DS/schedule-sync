@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { DateRange } from "react-day-picker";
 interface unavailableTimes {
@@ -17,7 +17,7 @@ export const addData = async (
   eventName: string,
   eventDetail: string,
   possibleDates: DateRange,
-  unavailableTimes: unavailableTimes,
+  unavailableDates: unavailableTimes,
   registrationDate: Date
 ) => {
   try {
@@ -25,7 +25,7 @@ export const addData = async (
       eventName,
       eventDetail,
       possibleDates,
-      unavailableTimes,
+      unavailableDates,
       registrationDate: Timestamp.fromDate(registrationDate),
     });
     console.log("データ追加成功");
@@ -56,5 +56,21 @@ export const addData = async (
   } catch (err) {
     console.error("dbのアクセスに失敗", err);
     return null;
+  }
+};
+
+interface NewUnavailableDates {
+  [key: string]: number[];
+}
+export const updateData = async (
+  docId: string,
+  newUnavailableDates: NewUnavailableDates
+) => {
+  try {
+    const eventRef = doc(db, "GuestUser", docId);
+    await updateDoc(eventRef, { unavailableDates: newUnavailableDates });
+    console.log("更新完了");
+  } catch (err) {
+    console.error("dataのupdateに失敗", err);
   }
 };
