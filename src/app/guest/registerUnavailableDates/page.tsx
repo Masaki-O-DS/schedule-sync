@@ -66,7 +66,11 @@ export default function Page() {
           </Button>
         </Link>
       </div>
-      <DragSchedule possibleDates={eventInfo.possibleDates}></DragSchedule>
+      <DragSchedule
+        unavailableDates={unavailableTimes}
+        source={"session"}
+        possibleDates={eventInfo.possibleDates}
+      ></DragSchedule>
     </div>
   );
 }

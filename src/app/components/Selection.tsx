@@ -9,7 +9,15 @@ import { clientDecodeBase64Json } from "../utils/sessionStorageUtils";
 interface UnavailableDates {
   [key: string]: number[];
 }
-const Selection = ({ date }: { date: string }) => {
+const Selection = ({
+  date,
+  source,
+  unavailableTimes = [],
+}: {
+  date: string;
+  source: string;
+  unavailableTimes?: number[];
+}) => {
   //1日中予定ありボタンを押しているかどうか
   const [isSetAllSchedule, setIsSetAllSchedule] = useState(false);
   // 選択された要素の ID を保持する state（Set を使用）
@@ -20,17 +28,26 @@ const Selection = ({ date }: { date: string }) => {
 
   // 初期レンダリング時にsessionStorageのデータを読み込み;
   useEffect(() => {
-    const storedData = sessionStorage.getItem("unavailableTimes");
-    const decodedData = clientDecodeBase64Json<UnavailableDates>(storedData);
-    if (decodedData) {
-      const unavailableDatesArray: number[] = decodedData[date] || [];
-      setSelected(new Set(unavailableDatesArray));
+    if (source === "session") {
+      const storedData = sessionStorage.getItem("unavailableTimes");
+      const decodedData = clientDecodeBase64Json<UnavailableDates>(storedData);
+      if (decodedData) {
+        const unavailableDatesArray: number[] = decodedData[date] || [];
+        setSelected(new Set(unavailableDatesArray));
+        //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
+        if (unavailableDatesArray.length === 19) {
+          setIsSetAllSchedule(true);
+        }
+      }
+    } else if (source === "fireStore") {
+      setSelected(new Set(unavailableTimes));
       //　全ての時間帯がダメな場合は、1日中予定有りのボタンをリセットに変更する
-      if (unavailableDatesArray.length === 19) {
+      if (unavailableTimes.length === 19) {
         setIsSetAllSchedule(true);
       }
+      console.log("unavailableTimesの中身", unavailableTimes);
     }
-  }, []);
+  }, [date, source]);
 
   //時間が選択されるたびにJotaiで状態管理
   useEffect(() => {

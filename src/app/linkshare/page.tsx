@@ -14,7 +14,7 @@ const page = () => {
         <Nav />
       </Header>
       <div className="h-full flex justify-center items-center">
-        <div className="bg-slate-800 flex flex-col justify-around   new type(arguments); w-2/4 h-3/5 rounded-lg p-10">
+        <div className="bg-slate-800 flex flex-col justify-around   new type(arguments) w-3/4 h-4/5 rounded-lg p-10">
           <div className="flex flex-col gap-y-5 justify-center items-center">
             <ShareEventName />
             <ShareEventDetail />

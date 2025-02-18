@@ -26,7 +26,7 @@ const EventDetail: React.FC<EventDetailProps> = ({ source, text }) => {
   return (
     <div className="flex ">
       <p className="font-semibold text-xl  w-36">イベント詳細 :</p>
-      <p className="text-xl font-medium flex-1 overflow-y-scroll h-36 border border-gray-700 border-opacity-55   p-2 rounded-lg mb-4">
+      <p className="text-xl font-medium flex-1 overflow-y-scroll h-36 border text-wrap  border-gray-500 border-opacity-20   p-2 rounded-lg mb-4">
         {eventDetail}
       </p>
     </div>

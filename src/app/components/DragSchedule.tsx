@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Selection from "./Selection";
 import {} from "lucide-react";
 import { useGenerateDateRange } from "@/hooks/useGenerateDateRange";
 import { DateRange } from "react-day-picker";
 
 interface DragScheduleProps {
+  source: "session" | "fireStore";
   possibleDates: DateRange | undefined;
+  unavailableDates?: { [key: string]: number[] };
 }
 
-const DragSchedule: React.FC<DragScheduleProps> = ({ possibleDates }) => {
-  useEffect(() => {
-    console.log(
-      "DragScheduleコンポーネントで受け取っているpossibleDates",
-      possibleDates
-    );
-  }, [possibleDates]);
-
+const DragSchedule: React.FC<DragScheduleProps> = ({
+  source,
+  possibleDates,
+  unavailableDates,
+}) => {
   const dates = useGenerateDateRange({
-    source: "fireStore",
+    source,
     data: possibleDates,
   });
 
@@ -29,7 +28,16 @@ const DragSchedule: React.FC<DragScheduleProps> = ({ possibleDates }) => {
       <div className="w-full flex items-center justify-center">
         <div className="w-3/4 bg-bgNuemo flex gap-20 rounded-md justify-around overflow-x-scroll px-10 items-center py-10">
           {dates !== undefined &&
-            dates.map((date, index) => <Selection key={index} date={date} />)}
+            dates.map((date, index) => (
+              <Selection
+                unavailableTimes={
+                  unavailableDates ? unavailableDates[date] : []
+                }
+                source={source}
+                key={index}
+                date={date}
+              />
+            ))}
         </div>
       </div>
     </div>

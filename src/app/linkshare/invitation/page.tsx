@@ -10,18 +10,24 @@ import DragSchedule from "@/app/components/DragSchedule";
 import { DateRange } from "react-day-picker";
 import { timeStampToDateObj } from "@/app/utils/timeStampToDate";
 import { Button } from "@/components/ui/button";
+import { Timestamp } from "firebase/firestore";
+// import { eventIdAtom } from "@/store/atoms";
+// import { unavailableTimesAtom } from "@/store/atoms";
+// import { useAtom } from "jotai";
 
 interface EventData {
   eventName: string;
   eventDetail: string;
   possibleDates: DateRange;
   unavailableDates: { [key: string]: number[] };
+  registrationDate: Timestamp;
 }
 
 const Page = () => {
   const [data, setData] = useState<EventData | undefined>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
+  // const [, setUnavailableTimes] = useAtom(unavailableTimesAtom);
 
   //fireStoreからデータを取得
   useEffect(() => {
@@ -32,6 +38,7 @@ const Page = () => {
 
       try {
         const eventData = await fetchData(id as string);
+        console.log("eventData", eventData);
         //possibleDateはtimeStamp型なのでそれをDate型に戻す
         if (eventData) {
           const from = timeStampToDateObj(eventData.possibleDates.from);
@@ -42,7 +49,7 @@ const Page = () => {
           };
 
           setData(convertedEventData as EventData);
-          console.log("eventData", eventData);
+          console.log(convertedEventData);
         }
       } catch (error) {
         console.error("データ取得を失敗:", error);
@@ -52,8 +59,15 @@ const Page = () => {
     fetchEventData();
   }, [id]);
 
-  const handleClick = () => {};
-  //明日はここを実装しよう
+  // data がまだ取得できていない場合はローディング中を表示する
+  if (!data) {
+    return <div>Loading...</div>; // もしくはローディングスピナー等を表示
+  }
+
+  const handleClick = () => {
+    //モーダルで送信されたことを表示しよう。
+    //fireStoreに送信しよう
+  };
 
   return (
     <div className="flex-col flex justify-center items-center">
@@ -70,7 +84,11 @@ const Page = () => {
         <EventDetail source="fireStore" text={data?.eventDetail}></EventDetail>
       </div>
 
-      <DragSchedule possibleDates={data?.possibleDates} />
+      <DragSchedule
+        unavailableDates={data?.unavailableDates || {}}
+        source="fireStore"
+        possibleDates={data?.possibleDates}
+      />
 
       <Footer></Footer>
     </div>

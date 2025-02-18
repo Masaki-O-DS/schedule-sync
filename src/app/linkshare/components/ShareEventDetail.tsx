@@ -10,7 +10,7 @@ const ShareEventDetail = () => {
       <legend className="">
         <p className="px-2">イベント詳細</p>
       </legend>
-      <p className="text-lg font-semibold w-full h-32 overflow-y-scroll">
+      <p className="text-lg font-semibold w-full h-28 overflow-y-scroll">
         {eventInfo.eventDetail}
       </p>
     </fieldset>
