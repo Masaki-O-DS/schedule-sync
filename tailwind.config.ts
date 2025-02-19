@@ -11,10 +11,13 @@ export default {
     extend: {
       boxShadow: {
         "custom-right": "7px 7px 15px -1px #777777",
+        "custom-neumorphism":
+          "10px 10px 20px #b1b1b1, -10px -10px 20px #ffffff",
       },
       colors: {
         bgMyColor: "#F4F5F7",
         bgGrayColor: "#D9D9D9",
+        bgNuemo: "#e0e0e0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -60,6 +63,26 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      animation: {
+        "scale-up-center":
+          "scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both",
+        hideAndSeek:
+          "hideAndSeek 1s alternate infinite cubic-bezier(0.86, 0, 0.07, 1)",
+      },
+      keyframes: {
+        "scale-up-center": {
+          "0%": {
+            transform: "scale(.5)",
+          },
+          to: {
+            transform: "scale(1)",
+          },
+        },
+        hideAndSeek: {
+          "0%": { transform: "translateY(4rem)" },
+          "100%": { transform: "translateY(0rem)" },
+        },
       },
     },
   },
