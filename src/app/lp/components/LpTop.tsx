@@ -26,7 +26,7 @@ const LpTop = () => {
           スケジューリングを実現します
         </p>
         <div className="mt-10">
-          <Link href={"/top"}>
+          <Link href={"/Top"}>
             <Button>今すぐ始める</Button>
           </Link>
         </div>
