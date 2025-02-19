@@ -1,6 +1,4 @@
-const nextConfig = {
-  /* config options here */
+module.exports = {
   transpilePackages: ["jotai-devtools"],
+  experimental: { appDir: true },
 };
-
-export default nextConfig;
