@@ -4,18 +4,24 @@ import { Button } from "@/app/components/button";
 import { eventIdAtom } from "@/store/atoms";
 import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const CopyLinkButton = () => {
   const [id] = useAtom(eventIdAtom);
   const pathname = usePathname();
-  const url =
-    `${window.location.origin}` + pathname + "/invitation?id=" + `${id}`;
+  const [url, setUrl] = useState("");
+
   const handleCopy = () => {
     toast("URLをクリップボードにコピーしました");
     navigator.clipboard.writeText(url);
   };
+
+  useEffect(() => {
+    setUrl(
+      `${window.location.origin}` + pathname + "/invitation?id=" + `${id}`
+    );
+  }, []);
 
   return (
     <div className=" grid grid-rows-2 justify-items-end gap-y-3 md:flex  w-full justify-center lg:items-end md:gap-5">
