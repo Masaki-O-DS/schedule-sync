@@ -13,7 +13,7 @@ export const LpNav = () => {
           <li>
             <a href="#why">使うメリット</a>
           </li>
-          <Link href={"/Top"}>
+          <Link href={"/top"}>
             <Button className="w-20 lg:w-32 text-xs lg:text-lg h-3">
               Try for Free
             </Button>
