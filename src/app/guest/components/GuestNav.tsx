@@ -15,7 +15,7 @@ const GuestNav = () => {
               戻る
             </button>
           </li>
-          <Link href={"/Top"}>
+          <Link href={"/top"}>
             <li>TOPページへ</li>
           </Link>
         </ol>
