@@ -24,9 +24,11 @@ const EventDetail: React.FC<EventDetailProps> = ({ source, text }) => {
     }
   }, [text]);
   return (
-    <div className="flex ">
-      <p className="font-semibold text-xl  w-36">イベント詳細 :</p>
-      <p className="text-xl font-medium flex-1 overflow-y-scroll h-36 border text-wrap  border-gray-500 border-opacity-20   p-2 rounded-lg mb-4">
+    <div className="flex w-full ">
+      <p className="font-semibold text-sm md:text-xl w-28 md:w-48">
+        イベント詳細 :
+      </p>
+      <p className="text-sm md:text-lg font-medium w-48 md:w-full overflow-y-scroll h-36 border text-wrap  border-gray-500 border-opacity-20 p-1 rounded-lg mb-4">
         {eventDetail}
       </p>
     </div>

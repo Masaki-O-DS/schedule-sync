@@ -58,10 +58,13 @@ export default function Page() {
 
   return (
     <div className="flex-col flex items-center ">
-      <div className="flex justify-around h-20 items-center w-2/4">
+      <div className="flex justify-around h-20 items-center w-5/6 md:w-3/4 lg:w-2/4">
         <EventName source="session" />
         <Link href={"/linkshare"}>
-          <Button className="cursor-pointer" onClick={handleClick}>
+          <Button
+            className="cursor-pointer md:text-base text-sm w-10 md:w-20"
+            onClick={handleClick}
+          >
             確定
           </Button>
         </Link>

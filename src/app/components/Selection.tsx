@@ -122,7 +122,7 @@ const Selection = ({
           {isSetAllSchedule ? "リセット" : "1日中予定あり"}
         </Button>
       </div>
-      <div className="w-auto h-auto bg-red-400 shadow-custom-neumorphism rounded-lg">
+      <div className="w-auto h-auto shadow-custom-neumorphism rounded-lg">
         <SelectionArea //SelectionArea コンポーネントの selectablesプロパティには、選択対象の要素を示すセレクタを指定します
           className="container"
           // onStart={onStart}

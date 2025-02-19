@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer";
-import Nav from "../guest/components/Nav";
+import Nav from "../guest/components/GuestNav";
 import CopyLinkButton from "./components/CopyLinkButton";
 import ShareEventName from "./components/ShareEventName";
 import ShareEventDetail from "./components/ShareEventDetail";
@@ -14,8 +14,8 @@ const page = () => {
         <Nav />
       </Header>
       <div className="h-full flex justify-center items-center">
-        <div className="bg-slate-800 flex flex-col justify-around   new type(arguments) w-3/4 h-4/5 rounded-lg p-10">
-          <div className="flex flex-col gap-y-5 justify-center items-center">
+        <div className="bg-slate-800 flex flex-col justify-around   new type(arguments) w-3/4 h-5/6 md:h-3/6 lg:h-5/6 rounded-lg p-10 lg:px-20 lg:py-10">
+          <div className="flex flex-col gap-y-8 justify-center items-center">
             <ShareEventName />
             <ShareEventDetail />
           </div>

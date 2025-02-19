@@ -8,9 +8,11 @@ const ShareEventName = () => {
   return (
     <fieldset className="border flex justify-start py-1 px-5 w-full border-gray-200 font-bold text-xl  text-slate-200">
       <legend className="">
-        <p className="px-2">イベント名</p>
+        <p className="px-2 text-sm md:text-base">イベント名</p>
       </legend>
-      <p className="text-lg font-semibold">{eventInfo.eventName}</p>
+      <p className="py-2 text-sm md:text-base font-semibold">
+        {eventInfo.eventName}
+      </p>
     </fieldset>
   );
 };

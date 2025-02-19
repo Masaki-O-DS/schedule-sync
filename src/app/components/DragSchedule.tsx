@@ -23,11 +23,11 @@ const DragSchedule: React.FC<DragScheduleProps> = ({
 
   return (
     <div className="flex justify-center flex-col items-center w-screen font-semibold text-xl">
-      <p>
-        予定が既に入っている時間をクリックもしくは、ドラッグで範囲選択してください
+      <p className="text-xs md:text-base text-center md:w-full w-52">
+        予定が既に入っている時間をクリックもしくは、ドラッグで範囲選択
       </p>
       <div className="w-full flex items-center justify-center">
-        <div className="w-3/4 bg-bgNuemo flex gap-20 rounded-md justify-around overflow-x-scroll px-10 items-center py-10">
+        <div className="w-5/6 md:w-3/4 bg-bgNuemo flex gap-10 md:gap-20 rounded-md justify-around overflow-x-scroll px-10 items-center py-5 md:py-10">
           {dates !== undefined &&
             dates.map((date, index) => (
               <Selection

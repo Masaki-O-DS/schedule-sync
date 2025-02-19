@@ -1,5 +1,6 @@
 import Footer from "../components/Footer";
-import { GuestHeader } from "./eventRegister/components/GuestHeader";
+import { Header } from "../components/Header";
+import GuestNav from "./components/GuestNav";
 
 export default function GuestLayout({
   children,
@@ -8,8 +9,10 @@ export default function GuestLayout({
 }) {
   return (
     <div className="min-h-screen bg-gray-100">
-      <GuestHeader />
-      <main className="">{children}</main>
+      <Header>
+        <GuestNav />
+      </Header>
+      <main>{children}</main>
       <Footer />
     </div>
   );

@@ -14,7 +14,8 @@ const EventName: React.FC<EventNameProps> = ({ source, text }) => {
     //sessionStorageから取得する場合
     if (source === "session") {
       const storedData = sessionStorage.getItem("eventName");
-      const decodedData = clientDecodeBase64Json<string>(storedData);
+      const decodedData: string | undefined =
+        clientDecodeBase64Json<string>(storedData);
       if (decodedData) {
         setEventName(decodedData);
       }
@@ -27,8 +28,10 @@ const EventName: React.FC<EventNameProps> = ({ source, text }) => {
 
   return (
     <div className="flex ">
-      <p className="font-semibold text-xl w-36 ">イベント名 : </p>
-      <p className="text-xl font-medium flex-1">{eventName}</p>
+      <p className="font-semibold text-sm md:text-xl w-20 md:w-36 ">
+        イベント名 :
+      </p>
+      <p className="text-sm md:text-lg font-medium flex-1">{eventName}</p>
     </div>
   );
 };

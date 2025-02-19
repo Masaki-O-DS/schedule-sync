@@ -9,7 +9,7 @@ const GuestNav = () => {
   return (
     <div>
       <nav>
-        <ol className="flex gap-4 mr-10 text-sm font-bold items-center">
+        <ol className="flex gap-4 mr-5 md:mr-10 text-xs md:text-sm font-bold items-center">
           <li>
             <button onClick={() => router.back()} className="cursor-pointer">
               戻る

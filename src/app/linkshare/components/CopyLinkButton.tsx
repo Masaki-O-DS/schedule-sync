@@ -18,16 +18,16 @@ const CopyLinkButton = () => {
   };
 
   return (
-    <div className=" flex w-full justify-center items-end gap-5">
+    <div className=" grid grid-rows-2 justify-items-end gap-y-3 md:flex  w-full justify-center lg:items-end md:gap-5">
       <input
         type="text"
-        className="w-96 overflow-x-scroll rounded-sm h-8 p-1"
+        className="w-52 md:w-80 lg:w-96 overflow-x-scroll rounded-sm h-8 p-1"
         readOnly
         value={`${window.location.origin}` + `${pathname}/invitation?id=${id}`}
       />
       <Button
         onClick={handleCopy}
-        className="bg-bgMyColor text-black text-lg h-8 hover:bg-red-400 hover:text-white"
+        className="bg-bgMyColor w-20 md:w-28 text-sm md:text-lg text-black  h-4 md:h-8 hover:bg-red-400 hover:text-white"
       >
         Copy
       </Button>

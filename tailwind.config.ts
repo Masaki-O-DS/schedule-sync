@@ -67,6 +67,8 @@ export default {
       animation: {
         "scale-up-center":
           "scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both",
+        hideAndSeek:
+          "hideAndSeek 1s alternate infinite cubic-bezier(0.86, 0, 0.07, 1)",
       },
       keyframes: {
         "scale-up-center": {
@@ -76,6 +78,10 @@ export default {
           to: {
             transform: "scale(1)",
           },
+        },
+        hideAndSeek: {
+          "0%": { transform: "translateY(4rem)" },
+          "100%": { transform: "translateY(0rem)" },
         },
       },
     },

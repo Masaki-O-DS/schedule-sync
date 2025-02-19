@@ -30,11 +30,14 @@ const InputEventName = () => {
   };
 
   return (
-    <div className="flex w-2/4 gap-10">
-      <p className="text-lg font-semibold w-36 ">イベント名</p>
+    <div className="flex w-5/6 md:w-3/4 lg:w-2/4 gap-2 md:gap-5 lg:gap-10">
+      <p className="text-sm md:text-lg font-semibold w-36 lg:w-40 ">
+        イベント名
+      </p>
       <input
         type="text"
-        className="rounded-sm border-gray-400 p-1 border-solid border border-opacity-50 w-full"
+        maxLength={12}
+        className="rounded-sm border-gray-400 text-xs md:text-base p-1 border-solid border border-opacity-50 w-full"
         placeholder="イベント名を記入"
         onChange={(e) => handleEdit(e)}
         value={eventInfo.eventName}

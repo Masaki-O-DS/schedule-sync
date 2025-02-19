@@ -17,7 +17,7 @@ const LpTop = () => {
         />
       </div>
       <div className=" flex-col flex  w-auto justify-center items-center">
-        <h1 className="font-bold text-md md:text-xl xl:text-3xl">
+        <h1 className="font-bold text-base md:text-xl xl:text-3xl">
           簡単に一回でスケジュール調整
         </h1>
         <p className="text-sm mt-3 font-medium w-52 md:w-">

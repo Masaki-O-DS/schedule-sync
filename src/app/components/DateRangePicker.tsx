@@ -73,14 +73,14 @@ const DateRangePicker = ({
 
   return (
     <div className={cn("grid gap-2", className)}>
-      <p className="text-lg font-semibold">日程を選択してください</p>
-      <div className="flex gap-4">
+      <p className="text-sm md:text-lg font-semibold">日程を選択してください</p>
+      <div className="flex gap-4 justify-center items-center">
         {/* 選択した日付が表示されるボタン */}
         <Button
           id="date"
           variant={"outline"}
           className={cn(
-            "w-[300px] justify-start text-left font-normal",
+            "w-[150px] md:w-[300px] justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
         >
@@ -91,13 +91,18 @@ const DateRangePicker = ({
                 {format(date.from, "yyyy/M/d")} - {format(date.to, "yyyy/M/d")}
               </>
             ) : (
-              format(date.from, "LLL dd, y")
+              format(date.from, "yyyy/M/d")
             )
           ) : (
             <span>Pick a date</span>
           )}
         </Button>
-        <Button onClick={handleReset}>日付をリセット</Button>
+        <Button
+          className="text-xs md:text-sm font-bold p-2 h-8 md:h-9"
+          onClick={handleReset}
+        >
+          日付をリセット
+        </Button>
       </div>
       <Calendar
         initialFocus

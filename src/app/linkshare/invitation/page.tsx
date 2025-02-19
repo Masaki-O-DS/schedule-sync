@@ -17,6 +17,7 @@ import { Timestamp } from "firebase/firestore";
 import { unavailableDatesAtom } from "@/store/atoms";
 import { useAtom } from "jotai";
 import SendDataModal from "./components/SendDataModal";
+import Loading from "@/app/components/Loader";
 
 interface EventData {
   eventName: string;
@@ -65,7 +66,11 @@ const Page = () => {
 
   // data がまだ取得できていない場合はローディング中を表示する
   if (!data) {
-    return <div>Loading...</div>; // もしくはローディングスピナー等を表示
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   }
 
   const handleClick = () => {
@@ -81,13 +86,14 @@ const Page = () => {
   return (
     <div className="flex-col flex justify-center items-center ">
       {isModal && <SendDataModal />}
-      <Header>
-        <></>
-      </Header>
-      <div className="flex flex-col justify-center items-start gap-y-4 w-2/4 py-5">
+      <Header />
+      <div className="flex flex-col justify-center items-start gap-y-4 w-5/6 md:w-4/6 lg:w-2/4 py-5">
         <div className="flex justify-between items-center w-full">
           <EventName source="fireStore" text={data?.eventName}></EventName>
-          <Button className="font-bold text-lg" onClick={handleClick}>
+          <Button
+            className="font-bold w-12 md:w-18 lg:w-20 h-7 lg:h-9 text-sm md:text-base lg:text-lg"
+            onClick={handleClick}
+          >
             確定
           </Button>
         </div>

@@ -26,7 +26,7 @@ export const LpMiddle = () => {
                 alt="drag icon"
                 className="ml-2"
               ></Image>
-              <p className="text-md md:text-xl ml-3 font-semibold">
+              <p className="text-base md:text-xl ml-3 font-semibold">
                 ドラッグスケジューリング
               </p>
             </div>
@@ -44,7 +44,7 @@ export const LpMiddle = () => {
         <div className="flex justify-center items-center py-5 gap-5 md:gap-10 ">
           <div className="bg-bgMyColor w-4/5 lg:w-3/5  rounded-md border-solid border-2 border-yellow-700 shadow-custom-right flex flex-col justify-end p-2">
             <div className="flex items-center md:px-10 px-2 pt-2 justify-end">
-              <p className="text-md md:text-xl md:mr-3 text-center  font-semibold">
+              <p className="text-base md:text-xl md:mr-3 text-center  font-semibold">
                 全員が参加できる日程を見つけ出せる
               </p>
               <Image
@@ -78,7 +78,9 @@ export const LpMiddle = () => {
                 alt="drag icon"
                 className="ml-2"
               />
-              <p className="text-md md:text-xl ml-3 font-semibold">通知機能</p>
+              <p className="text-base md:text-xl ml-3 font-semibold">
+                通知機能
+              </p>
             </div>
             <hr className="md:ml-10 md:w-3/4 w-5/6 ml-4" />
             <p className="py-3 md:px-10 px-5 break-words text-xs md:text-sm">

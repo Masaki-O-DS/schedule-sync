@@ -13,7 +13,7 @@ const Page = () => {
       <EventForm>
         <InputEventName />
         <InputEventDetail />
-        <DateRangePicker />
+        <DateRangePicker className="w-5/6 justify-items-center" />
       </EventForm>
     </div>
   );
