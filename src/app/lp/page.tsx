@@ -1,5 +1,3 @@
-//LP
-
 import Footer from "../components/Footer";
 import { Header } from "./components/LpHeader";
 import LpBottom from "./components/LpBottom";
