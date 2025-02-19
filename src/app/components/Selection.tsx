@@ -45,7 +45,6 @@ const Selection = ({
       if (unavailableTimesProp.length === 19) {
         setIsSetAllSchedule(true);
       }
-      console.log("unavailableTimesの中身", unavailableTimesProp);
     }
   }, [date, source]);
 
@@ -69,13 +68,14 @@ const Selection = ({
       .map(Number);
 
   // 選択開始時のイベントハンドラー
-  const onStart = ({ event, selection }: SelectionEvent) => {
-    // Ctrl や Meta キーが押されていなければ、既存の選択をクリアする
-    if (!event?.ctrlKey && !event?.metaKey) {
-      selection.clearSelection();
-      setSelected(new Set());
-    }
-  };
+  // const onStart = ({ event, selection }: SelectionEvent) => {
+  //   // Ctrl や Meta キーが押されていなければ、既存の選択をクリアする
+  //   if (!event?.ctrlKey && !event?.metaKey) {
+  //     selection.clearSelection();
+  //     setSelected(new Set());
+  //   }
+  // };
+
   // 選択中のイベントハンドラー
   const onMove = ({
     store: {
@@ -84,7 +84,8 @@ const Selection = ({
   }: SelectionEvent) => {
     setSelected((prev) => {
       // 前の選択状態をコピー
-      const next = new Set(prev);
+      const next = new Set([...prev, ...(unavailableTimesProp || [])]);
+
       // 追加された要素の ID を追加
       extractIds(added).forEach((id) => next.add(id));
       // 削除された要素の ID を削除
@@ -103,7 +104,7 @@ const Selection = ({
 
   const handleCancel = () => {
     setIsSetAllSchedule(false);
-    setSelected(new Set());
+    setSelected(new Set([...(unavailableTimesProp || [])]));
   };
 
   return (
@@ -124,7 +125,7 @@ const Selection = ({
       <div className="w-auto h-auto bg-red-400 shadow-custom-neumorphism rounded-lg">
         <SelectionArea //SelectionArea コンポーネントの selectablesプロパティには、選択対象の要素を示すセレクタを指定します
           className="container"
-          onStart={onStart}
+          // onStart={onStart}
           onMove={onMove}
           selectables=".selectable"
         >
