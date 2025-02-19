@@ -29,7 +29,7 @@ const CopyLinkButton = () => {
         type="text"
         className="w-52 md:w-80 lg:w-96 overflow-x-scroll rounded-sm h-8 p-1"
         readOnly
-        value={`${window.location.origin}` + `${pathname}/invitation?id=${id}`}
+        value={url}
       />
       <Button
         onClick={handleCopy}
