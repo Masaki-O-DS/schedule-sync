@@ -41,7 +41,7 @@ const LpBottomContent = () => {
             簡単に効率よく日程調整をして、今日から時間を節約しましょう！
           </p>
         </div>
-        <Link href={"top"}>
+        <Link href={"/top"}>
           <Button className="bg-bgMyColor text-black md:text-xl text:md  mt-5 md:mb-4 mb-0 h-10 w-60 md:w-96 active:bg-slate-500">
             Try ScheduleSync for Free
           </Button>
