@@ -19,7 +19,6 @@ const DragSchedule: React.FC<DragScheduleProps> = ({
     source,
     data: possibleDates,
   });
-  console.log("unavailableDates : ", unavailableDatesProp);
 
   return (
     <div className="flex justify-center flex-col items-center w-screen font-semibold text-xl">
