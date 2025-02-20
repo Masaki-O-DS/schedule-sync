@@ -24,10 +24,6 @@ export default function Page() {
   const [unavailableTimes] = useAtom(unavailableDatesAtom);
   const [eventId, setEventId] = useAtom(eventIdAtom);
 
-  useEffect(() => {
-    console.log("eventInfoの中身", eventInfo);
-  }, [eventInfo]);
-
   //linkshareページに飛ぶとともにfirestoreにデータを保管
   const handleClick = () => {
     //ブラウザバックした時に以前の選択したデータを反映させるためにsessionStorageに保管

@@ -53,7 +53,6 @@ const InvitationPage = () => {
           };
 
           setData(convertedEventData as EventData);
-          console.log(convertedEventData);
         }
       } catch (error) {
         console.error("データ取得を失敗:", error);

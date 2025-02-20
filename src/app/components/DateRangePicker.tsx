@@ -36,7 +36,6 @@ const DateRangePicker = ({
         to: decodedData?.to ? new Date(decodedData.to) : undefined,
       },
     };
-    // console.log("convertedDatesの中身", convertedDates);
     setDate(convertedDates.possibleDates);
     setPossibleDates((prev) => ({
       ...prev,
@@ -63,9 +62,7 @@ const DateRangePicker = ({
     }
   }, [date, setPossibleDates]);
 
-  useEffect(() => {
-    console.log("possibleDatesの中身", possibleDates);
-  }, [possibleDates]);
+  useEffect(() => {}, [possibleDates]);
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {
     setDate({ from: undefined, to: undefined });
