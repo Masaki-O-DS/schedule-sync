@@ -10,7 +10,7 @@ import {
 } from "@/store/atoms";
 import { useAtom } from "jotai";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import { nanoid } from "nanoid";
 import { addData } from "../../../../services/fireStore/guestCrud";
 import { clientEncodeBase64Json } from "@/app/utils/sessionStorageUtils";
