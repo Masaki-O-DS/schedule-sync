@@ -66,7 +66,7 @@ export default function Page() {
         </Link>
       </div>
       <DragSchedule
-        unavailableDatesProp={unavailableTimes}
+        // unavailableDatesProp={unavailableTimes}
         source={"session"}
         possibleDates={eventInfo.possibleDates}
       ></DragSchedule>

@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        md: "740px",
+      },
       boxShadow: {
         "custom-right": "7px 7px 15px -1px #777777",
         "custom-neumorphism":

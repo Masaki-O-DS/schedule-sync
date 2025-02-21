@@ -66,6 +66,10 @@ const DateRangePicker = ({
 
   const handleReset: React.MouseEventHandler<HTMLButtonElement> = () => {
     setDate({ from: undefined, to: undefined });
+    setPossibleDates((prev) => ({
+      ...prev,
+      possibleDates: { from: undefined, to: undefined },
+    }));
   };
 
   return (

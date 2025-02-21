@@ -68,13 +68,14 @@ const Selection = ({
       .map(Number);
 
   // 選択開始時のイベントハンドラー
-  // const onStart = ({ event, selection }: SelectionEvent) => {
-  //   // Ctrl や Meta キーが押されていなければ、既存の選択をクリアする
-  //   if (!event?.ctrlKey && !event?.metaKey) {
-  //     selection.clearSelection();
-  //     setSelected(new Set());
-  //   }
-  // };
+  //何も処理を書いていないが、このonStart関数がないとクリックが正常に作動しない
+  const onStart = () => {
+    // Ctrl や Meta キーが押されていなければ、既存の選択をクリアする
+    // if (!event?.ctrlKey && !event?.metaKey) {
+    //   selection.clearSelection();
+    //   setSelected(new Set());
+    // }
+  };
 
   // 選択中のイベントハンドラー
   const onMove = ({
@@ -89,7 +90,12 @@ const Selection = ({
       // 追加された要素の ID を追加
       extractIds(added).forEach((id) => next.add(id));
       // 削除された要素の ID を削除
-      extractIds(removed).forEach((id) => next.delete(id));
+      extractIds(removed).forEach((id) => {
+        if (!unavailableTimesProp.includes(id)) {
+          next.delete(id);
+        }
+      });
+
       return next;
     });
   };
@@ -105,7 +111,10 @@ const Selection = ({
   const handleCancel = () => {
     setIsSetAllSchedule(false);
     setSelected(new Set([...(unavailableTimesProp || [])]));
+    console.log("selected", selected);
   };
+
+  console.log("unavailableDatesProp", unavailableTimesProp);
 
   return (
     <div className="flex flex-col justify-center gap-y-5 items-center">
@@ -125,7 +134,7 @@ const Selection = ({
       <div className="w-auto h-auto shadow-custom-neumorphism rounded-lg">
         <SelectionArea //SelectionArea コンポーネントの selectablesプロパティには、選択対象の要素を示すセレクタを指定します
           className="container"
-          // onStart={onStart}
+          onStart={onStart}
           onMove={onMove}
           selectables=".selectable"
         >
